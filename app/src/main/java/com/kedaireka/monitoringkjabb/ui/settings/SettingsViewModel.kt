@@ -1,13 +1,13 @@
-package com.kedaireka.monitoringkjabb.ui.home
+package com.kedaireka.monitoringkjabb.ui.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class SettingsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+        value = "This is settings Fragment"
     }
     val text: LiveData<String> = _text
 }

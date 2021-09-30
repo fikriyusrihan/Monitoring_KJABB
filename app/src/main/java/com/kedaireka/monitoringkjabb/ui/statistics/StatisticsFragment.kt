@@ -1,4 +1,4 @@
-package com.kedaireka.monitoringkjabb.ui.home
+package com.kedaireka.monitoringkjabb.ui.statistics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.kedaireka.monitoringkjabb.R
-import com.kedaireka.monitoringkjabb.databinding.FragmentHomeBinding
+import com.kedaireka.monitoringkjabb.databinding.FragmentStatisticsBinding
 
-class HomeFragment : Fragment() {
+class StatisticsFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    private lateinit var statisticsViewModel: StatisticsViewModel
+    private var _binding: FragmentStatisticsBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,15 +23,15 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+    ): View {
+        statisticsViewModel =
+            ViewModelProvider(this).get(StatisticsViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        statisticsViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return root

@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/bottom_navigation_bg.xml" value="0.23697916666666666" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/bottom_navigation_item_selector.xml" value="0.22135416666666666" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_dashboard.xml" value="0.22083333333333333" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_home.xml" value="0.22083333333333333" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_notifications.xml" value="0.22083333333333333" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22083333333333333" />
       </map>
     </option>
   </component>
