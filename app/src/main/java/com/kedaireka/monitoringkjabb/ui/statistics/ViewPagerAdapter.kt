@@ -12,7 +12,8 @@ import com.kedaireka.monitoringkjabb.ui.statistics.parameter.WaterTemperatureFra
 
 private const val NUM_TABS = 4
 
-class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle): FragmentStateAdapter(fragmentManager, lifecycle) {
+class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+    FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
         return NUM_TABS
     }
