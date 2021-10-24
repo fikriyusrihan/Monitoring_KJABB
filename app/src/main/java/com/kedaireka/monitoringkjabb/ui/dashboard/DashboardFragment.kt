@@ -1,14 +1,13 @@
 package com.kedaireka.monitoringkjabb.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.kedaireka.monitoringkjabb.R
+import com.kedaireka.monitoringkjabb.DetailSensorActivity
 import com.kedaireka.monitoringkjabb.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
@@ -24,17 +23,21 @@ class DashboardFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.fragmentTitle
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        val cardDissolvedOxygen = binding.cardDissolvedOxygen
+        cardDissolvedOxygen.setOnClickListener {
+            val intent = Intent(context, DetailSensorActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
         return root
     }
 

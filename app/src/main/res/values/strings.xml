@@ -27,4 +27,8 @@
     <string name="settings_description">Customize app settings</string>
     <string name="statistics_download_message">Get an overall data recap in the form of .xlsx (excel)</string>
     <string name="download">Download</string>
+    <string name="back_button">Back Button</string>
+    <string name="sensor_details">Sensor Details</string>
+    <string name="sensor_detail_description">Sensor data details and graphs</string>
+    <string name="normal">Normal</string>
 </resources>
