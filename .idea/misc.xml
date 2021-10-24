@@ -9,11 +9,15 @@
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/white_button_bg.xml" value="0.22135416666666666" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/white_button_selector.xml" value="0.22135416666666666" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_d_o.xml" value="0.16802536231884058" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_dashboard.xml" value="0.3333333333333333" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_home.xml" value="0.22083333333333333" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_notifications.xml" value="0.22083333333333333" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_p_h.xml" value="0.16802536231884058" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_salinity.xml" value="0.16802536231884058" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_settings.xml" value="0.19610507246376813" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_statistics.xml" value="0.19610507246376813" />
+        <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_water_temperature.xml" value="0.16802536231884058" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22083333333333333" />
       </map>
     </option>
