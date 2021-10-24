@@ -1,60 +1,71 @@
 package com.kedaireka.monitoringkjabb.ui.statistics.parameter
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.kedaireka.monitoringkjabb.R
+import com.kedaireka.monitoringkjabb.databinding.FragmentDOBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DOFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DOFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentDOBinding? = null
+
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_d_o, container, false)
+    ): View {
+
+        _binding = FragmentDOBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        val lineChart = binding.lineChart
+        setDOLineChart(lineChart)
+
+        return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DOFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DOFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun setDOLineChart(lineChart: LineChart) {
+        val xValue = ArrayList<String>()
+        xValue.add("7am")
+        xValue.add("10am")
+        xValue.add("1pm")
+        xValue.add("4pm")
+        xValue.add("7pm")
+        xValue.add("10pm")
+
+        val lineEntry = ArrayList<Entry>()
+        lineEntry.add(Entry(0F, 6.2F))
+        lineEntry.add(Entry(1F, 7.1F))
+        lineEntry.add(Entry(2F, 6.5F))
+        lineEntry.add(Entry(3F, 6.8F))
+        lineEntry.add(Entry(4F, 7.4F))
+        lineEntry.add(Entry(5F, 6.9F))
+
+        val lineDataSet = LineDataSet(lineEntry, resources.getString(R.string.dissolved_oxygen))
+        lineDataSet.color = resources.getColor(R.color.blue_primary)
+
+        val xAxis = lineChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setLabelCount(xValue.size, true)
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return xValue[value.toInt()]
             }
+        }
+
+        val data = LineData(lineDataSet)
+        lineChart.data = data
+        lineChart.setScaleEnabled(false)
+
     }
 }
