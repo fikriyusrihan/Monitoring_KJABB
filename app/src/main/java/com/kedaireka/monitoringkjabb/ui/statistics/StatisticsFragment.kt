@@ -8,7 +8,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kedaireka.monitoringkjabb.databinding.FragmentStatisticsBinding
+
+val parameterArray = arrayOf(
+    "Dissolved Oxygen",
+    "Power of Hydrogen",
+    "Water Temperature",
+    "Salinity"
+)
 
 class StatisticsFragment : Fragment() {
 
@@ -30,10 +38,17 @@ class StatisticsFragment : Fragment() {
         _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        statisticsViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+        val viewPager = binding.statViewpager
+        val tabLayout = binding.tabLayout
+
+        val adapter = ViewPagerAdapter(childFragmentManager, lifecycle)
+        viewPager.adapter = adapter
+
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = parameterArray[position]
+        }.attach()
+
+
         return root
     }
 

@@ -55,9 +55,9 @@
             android:contentDescription="@string/notification_button"
             android:padding="8dp"
             android:src="@drawable/ic_baseline_notifications_24"
-            android:tint="@color/blue_primary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blue_primary" />
 
     </LinearLayout>
 
