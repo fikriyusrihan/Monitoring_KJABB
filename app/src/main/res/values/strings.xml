@@ -31,4 +31,7 @@
     <string name="sensor_details">Sensor Details</string>
     <string name="sensor_detail_description">Sensor data details and graphs</string>
     <string name="normal">Normal</string>
+    <string name="card_title">Card Title</string>
+    <string name="value">Value</string>
+    <string name="parameter_icon">Parameter Icon</string>
 </resources>

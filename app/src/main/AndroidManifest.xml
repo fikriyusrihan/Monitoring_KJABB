@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MonitoringKJABB">
         <activity
-            android:name=".DetailSensorActivity"
+            android:name=".activity.DetailSensorActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
