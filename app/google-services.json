@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "598594457930",
+    "project_id": "monitoring-kjabb",
+    "storage_bucket": "monitoring-kjabb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598594457930:android:c948062cdb2f1cc047f1b3",
+        "android_client_info": {
+          "package_name": "com.kedaireka.monitoringkjabb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598594457930-j4okr3ekgvi74193gkqjmg487q7c3s68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAPNLudNjmrF-_j5lpH6edENlOWm6S81s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598594457930-j4okr3ekgvi74193gkqjmg487q7c3s68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

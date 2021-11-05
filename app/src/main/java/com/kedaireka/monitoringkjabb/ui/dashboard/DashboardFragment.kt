@@ -35,6 +35,19 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+//        val textDO = binding.indicatorTitle1
+//        val textTemp = binding.indicatorTitle2
+//        val textPH = binding.indicatorTitle3
+//        val textSalinity = binding.indicatorTitle4
+//
+//        dashboardViewModel.data.observe(viewLifecycleOwner, Observer {
+//            textDO.text = it["sensor_do"]
+//            textTemp.text = it["sensor_temperature"]
+//            textPH.text = it["sensor_ph"]
+//            textSalinity.text = it["sensor_salinity"]
+//        })
+
         return root
     }
 
