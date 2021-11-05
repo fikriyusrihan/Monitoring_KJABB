@@ -38,8 +38,9 @@ class DashboardViewModel : ViewModel() {
                     val value = document["value"].toString()
                     val unit = document["unit"].toString()
                     val createdAt = document["created_at"].toString()
+                    val urlIcon = document["url_icon"].toString()
 
-                    sensorData.add(Sensor(name, value, unit, createdAt))
+                    sensorData.add(Sensor(name, value, unit, createdAt, urlIcon))
                 }
                 _data.postValue(sensorData)
             }

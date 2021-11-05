@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.model.Sensor
 
@@ -33,6 +34,14 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
 
         holder.tvName.text = name
         holder.tvValue.text = displayValue
+
+        if (urlIcon != "") {
+            Glide
+                .with(holder.itemView)
+                .load(urlIcon)
+                .into(holder.imgIcon)
+        }
+
         holder.itemView.setOnClickListener {
             Toast.makeText(holder.itemView.context, name, Toast.LENGTH_SHORT).show()
         }
