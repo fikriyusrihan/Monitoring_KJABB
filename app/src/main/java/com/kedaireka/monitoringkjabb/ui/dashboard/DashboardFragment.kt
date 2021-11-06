@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +17,7 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var rvSensor: RecyclerView
+    private lateinit var pbDashboard: ProgressBar
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +37,8 @@ class DashboardFragment : Fragment() {
 
         rvSensor = binding.rvHeroes
         rvSensor.setHasFixedSize(true)
+
+        pbDashboard = binding.pbDashboard
 
         dashboardViewModel.isLoading.observe(viewLifecycleOwner, {
             showLoading(it)
@@ -62,5 +65,12 @@ class DashboardFragment : Fragment() {
     }
 
     private fun showLoading(bool: Boolean) {
+        if (bool) {
+            pbDashboard.visibility = View.VISIBLE
+            rvSensor.visibility = View.GONE
+        } else {
+            pbDashboard.visibility = View.GONE
+            rvSensor.visibility = View.VISIBLE
+        }
     }
 }
