@@ -76,6 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
+            android:id="@+id/tv_title"
             style="@style/CardTextTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,6 +84,7 @@
             android:text="@string/dissolved_oxygen" />
 
         <TextView
+            android:id="@+id/tv_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -93,6 +95,7 @@
             android:textSize="48sp" />
 
         <TextView
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

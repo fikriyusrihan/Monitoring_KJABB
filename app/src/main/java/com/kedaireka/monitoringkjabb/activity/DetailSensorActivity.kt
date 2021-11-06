@@ -1,6 +1,7 @@
 package com.kedaireka.monitoringkjabb.activity
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -10,16 +11,27 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
+import com.kedaireka.monitoringkjabb.model.Sensor
 
 class DetailSensorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailSensorBinding
+    private lateinit var tvTitle: TextView
+    private lateinit var tvValue: TextView
+    private lateinit var tvStatus: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityDetailSensorBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        tvTitle = binding.tvTitle
+        tvValue = binding.tvValue
+        tvStatus = binding.tvStatus
+
+        val data: Sensor = intent.extras?.get("data") as Sensor
+        setData(data)
 
         val btnBack = binding.btnBack
         btnBack.setOnClickListener {
@@ -28,6 +40,14 @@ class DetailSensorActivity : AppCompatActivity() {
 
         val lineChart = binding.lineChart
         setDOLineChart(lineChart)
+    }
+
+    private fun setData(sensor: Sensor) {
+        val displayValue = "${sensor.value} ${sensor.unit}"
+        tvTitle.text = sensor.name
+        tvValue.text = displayValue
+        tvStatus.text = sensor.created_at
+
     }
 
     private fun setDOLineChart(lineChart: LineChart) {

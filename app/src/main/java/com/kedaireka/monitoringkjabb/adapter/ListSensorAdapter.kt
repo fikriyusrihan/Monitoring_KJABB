@@ -1,5 +1,6 @@
 package com.kedaireka.monitoringkjabb.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kedaireka.monitoringkjabb.R
+import com.kedaireka.monitoringkjabb.activity.DetailSensorActivity
 import com.kedaireka.monitoringkjabb.model.Sensor
 
 class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
@@ -43,7 +45,9 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
         }
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, name, Toast.LENGTH_SHORT).show()
+            val intent = Intent(holder.itemView.context, DetailSensorActivity::class.java)
+            intent.putExtra("data", listSensor[position])
+            holder.itemView.context.startActivity(intent)
         }
     }
 
