@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable-v23/splash_bg.xml" value="0.10625" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1787037037037037" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/ic_icon_rounded.xml" value="0.10625" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1787037037037037" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/oxygen_icon.xml" value="0.18703703703703703" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/ph_icon.xml" value="0.18703703703703703" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/salinity_icon.xml" value="0.18703703703703703" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/splash_bg.xml" value="0.10625" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/thermometer_icon.xml" value="0.18703703703703703" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/activity_detail_sensor.xml" value="0.2" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/dashboard_card.xml" value="0.22" />
