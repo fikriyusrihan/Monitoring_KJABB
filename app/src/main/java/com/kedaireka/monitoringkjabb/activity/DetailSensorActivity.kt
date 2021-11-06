@@ -1,6 +1,7 @@
 package com.kedaireka.monitoringkjabb.activity
 
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
@@ -19,6 +20,7 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var tvTitle: TextView
     private lateinit var tvValue: TextView
     private lateinit var tvStatus: TextView
+    private lateinit var banner: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,7 @@ class DetailSensorActivity : AppCompatActivity() {
         tvTitle = binding.tvTitle
         tvValue = binding.tvValue
         tvStatus = binding.tvStatus
+        banner = binding.banner
 
         val data: Sensor = intent.extras?.get("data") as Sensor
         setData(data)
@@ -46,8 +49,28 @@ class DetailSensorActivity : AppCompatActivity() {
         val displayValue = "${sensor.value} ${sensor.unit}"
         tvTitle.text = sensor.name
         tvValue.text = displayValue
-        tvStatus.text = sensor.created_at
+        parseStatus(sensor.status)
 
+    }
+
+    private fun parseStatus(status: Int) {
+        when (status) {
+            0 -> {
+                val statusText = "Good"
+                tvStatus.text = statusText
+                banner.setBackgroundColor(resources.getColor(R.color.blue_primary))
+            }
+            1 -> {
+                val statusText = "Moderate"
+                tvStatus.text = statusText
+                banner.setBackgroundColor(resources.getColor(R.color.yellow))
+            }
+            else -> {
+                val statusText = "Bad"
+                tvStatus.text = statusText
+                banner.setBackgroundColor(resources.getColor(R.color.red))
+            }
+        }
     }
 
     private fun setDOLineChart(lineChart: LineChart) {

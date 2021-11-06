@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
@@ -36,10 +37,11 @@ class DashboardViewModel : ViewModel() {
                     val name = document["name"].toString()
                     val value = document["value"].toString()
                     val unit = document["unit"].toString()
-                    val createdAt = document["created_at"].toString()
+                    val status = document["status"].toString().toInt()
+                    val createdAt = document["created_at"] as Timestamp
                     val urlIcon = document["url_icon"].toString()
 
-                    sensorData.add(Sensor(name, value, unit, createdAt, urlIcon))
+                    sensorData.add(Sensor(name, value, unit, status, createdAt, urlIcon))
                 }
                 _data.postValue(sensorData)
                 _isLoading.postValue(false)
