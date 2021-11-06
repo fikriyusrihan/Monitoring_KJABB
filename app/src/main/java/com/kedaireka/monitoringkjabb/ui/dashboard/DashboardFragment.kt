@@ -37,9 +37,8 @@ class DashboardFragment : Fragment() {
         rvSensor = binding.rvHeroes
         rvSensor.setHasFixedSize(true)
 
-        val textView: TextView = binding.fragmentTitle
-        dashboardViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
+        dashboardViewModel.isLoading.observe(viewLifecycleOwner, {
+            showLoading(it)
         })
 
         dashboardViewModel.data.observe(viewLifecycleOwner, {
@@ -60,5 +59,8 @@ class DashboardFragment : Fragment() {
         rvSensor.layoutManager = LinearLayoutManager(this.context)
         val listSensorAdapter = ListSensorAdapter(list)
         rvSensor.adapter = listSensorAdapter
+    }
+
+    private fun showLoading(bool: Boolean) {
     }
 }

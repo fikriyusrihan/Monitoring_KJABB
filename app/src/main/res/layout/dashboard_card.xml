@@ -45,8 +45,7 @@
             android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_weight="2"
-            android:contentDescription="@string/parameter_icon"
-            android:src="@drawable/oxygen_icon" />
+            android:contentDescription="@string/parameter_icon" />
 
     </LinearLayout>
 

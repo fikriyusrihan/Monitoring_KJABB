@@ -15,10 +15,8 @@ class DashboardViewModel : ViewModel() {
         private const val TAG = "DashboardViewModel"
     }
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Dashboard"
-    }
-    val text: LiveData<String> = _text
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val _data = MutableLiveData<ArrayList<Sensor>>()
     val data : LiveData<ArrayList<Sensor>> = _data
@@ -28,6 +26,7 @@ class DashboardViewModel : ViewModel() {
     }
 
     private fun getSensorsData() {
+        _isLoading.postValue(true)
         val db = Firebase.firestore
         db.collection("sensors")
             .get()
@@ -43,6 +42,7 @@ class DashboardViewModel : ViewModel() {
                     sensorData.add(Sensor(name, value, unit, createdAt, urlIcon))
                 }
                 _data.postValue(sensorData)
+                _isLoading.postValue(false)
             }
             .addOnFailureListener {
                 Log.d(TAG, "Error getting documents: ", it)
