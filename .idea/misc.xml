@@ -12,7 +12,8 @@
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/salinity_icon.xml" value="0.18703703703703703" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/splash_bg.xml" value="0.10625" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/thermometer_icon.xml" value="0.18703703703703703" />
-        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/activity_detail_sensor.xml" value="0.2" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/activity_detail_sensor.xml" value="0.22" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/dashboard_card.xml" value="0.22" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/fragment_dashboard.xml" value="0.16666666666666666" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/fragment_p_h.xml" value="0.2" />

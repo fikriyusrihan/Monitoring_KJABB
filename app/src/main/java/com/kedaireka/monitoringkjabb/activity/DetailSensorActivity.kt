@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -42,7 +43,7 @@ class DetailSensorActivity : AppCompatActivity() {
         }
 
         val lineChart = binding.lineChart
-        setDOLineChart(lineChart)
+        setDOLineChart(lineChart, data)
     }
 
     private fun setData(sensor: Sensor) {
@@ -58,22 +59,37 @@ class DetailSensorActivity : AppCompatActivity() {
             0 -> {
                 val statusText = "Good"
                 tvStatus.text = statusText
-                banner.setBackgroundColor(resources.getColor(R.color.blue_primary))
+                banner.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.blue_primary
+                    )
+                )
             }
             1 -> {
                 val statusText = "Moderate"
                 tvStatus.text = statusText
-                banner.setBackgroundColor(resources.getColor(R.color.yellow))
+                banner.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.yellow
+                    )
+                )
             }
             else -> {
                 val statusText = "Bad"
                 tvStatus.text = statusText
-                banner.setBackgroundColor(resources.getColor(R.color.red))
+                banner.setBackgroundColor(
+                    ContextCompat.getColor(
+                        applicationContext,
+                        R.color.red
+                    )
+                )
             }
         }
     }
 
-    private fun setDOLineChart(lineChart: LineChart) {
+    private fun setDOLineChart(lineChart: LineChart, sensor: Sensor) {
         val xValue = ArrayList<String>()
         xValue.add("7am")
         xValue.add("10am")
@@ -90,8 +106,20 @@ class DetailSensorActivity : AppCompatActivity() {
         lineEntry.add(Entry(4F, 7.4F))
         lineEntry.add(Entry(5F, 6.9F))
 
-        val lineDataSet = LineDataSet(lineEntry, resources.getString(R.string.dissolved_oxygen))
-        lineDataSet.color = resources.getColor(R.color.blue_primary)
+        val lineDataSet = LineDataSet(lineEntry, sensor.name)
+        lineDataSet.circleColors =
+            mutableListOf(ContextCompat.getColor(applicationContext, R.color.grey_light))
+        when (sensor.status) {
+            0 -> {
+                lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.blue_primary)
+            }
+            1 -> {
+                lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.yellow)
+            }
+            else -> {
+                lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.red)
+            }
+        }
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
