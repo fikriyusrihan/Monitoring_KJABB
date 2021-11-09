@@ -3,8 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/fragment_dashboard.xml" value="0.2" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable-v23/splash_bg.xml" value="0.10625" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1787037037037037" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/ic_icon_rounded.xml" value="0.10625" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1787037037037037" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/oxygen_icon.xml" value="0.18703703703703703" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/ph_icon.xml" value="0.18703703703703703" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/salinity_icon.xml" value="0.18703703703703703" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/splash_bg.xml" value="0.10625" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/drawable/thermometer_icon.xml" value="0.18703703703703703" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/activity_detail_sensor.xml" value="0.22" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/dashboard_card.xml" value="0.22" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/fragment_dashboard.xml" value="0.16666666666666666" />
         <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/layout/fragment_p_h.xml" value="0.2" />
+        <entry key="..\:/Code/Android/Monitoring_KJABB/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.10989583333333333" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/bottom_navigation_bg.xml" value="0.23697916666666666" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/bottom_navigation_item_selector.xml" value="0.22135416666666666" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.3828125" />

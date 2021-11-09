@@ -27,4 +27,14 @@
     <string name="settings_description">Customize app settings</string>
     <string name="statistics_download_message">Get an overall data recap in the form of .xlsx (excel)</string>
     <string name="download">Download</string>
+    <string name="back_button">Back Button</string>
+    <string name="sensor_details">Sensor Details</string>
+    <string name="sensor_detail_description">Sensor data details and graphs</string>
+    <string name="normal">Normal</string>
+    <string name="card_title">Card Title</string>
+    <string name="value">Value</string>
+    <string name="parameter_icon">Parameter Icon</string>
+    <string name="current_threshold">Current Threshold</string>
+    <string name="threshold_dummy">5.6 – 7.4 mg/l</string>
+    <string name="download_records">Download Records</string>
 </resources>

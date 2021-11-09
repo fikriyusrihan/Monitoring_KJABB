@@ -4,49 +4,51 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.kedaireka.monitoringkjabb.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kedaireka.monitoringkjabb.adapter.ListSensorAdapter
 import com.kedaireka.monitoringkjabb.databinding.FragmentDashboardBinding
+import com.kedaireka.monitoringkjabb.model.Sensor
 
 class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private lateinit var rvSensor: RecyclerView
+    private lateinit var pbDashboard: ProgressBar
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
+
+    private var list = ArrayList<Sensor>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.fragmentTitle
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        rvSensor = binding.rvHeroes
+        rvSensor.setHasFixedSize(true)
+
+        pbDashboard = binding.pbDashboard
+
+        dashboardViewModel.isLoading.observe(viewLifecycleOwner, {
+            showLoading(it)
         })
 
-//        val textDO = binding.indicatorTitle1
-//        val textTemp = binding.indicatorTitle2
-//        val textPH = binding.indicatorTitle3
-//        val textSalinity = binding.indicatorTitle4
-//
-//        dashboardViewModel.data.observe(viewLifecycleOwner, Observer {
-//            textDO.text = it["sensor_do"]
-//            textTemp.text = it["sensor_temperature"]
-//            textPH.text = it["sensor_ph"]
-//            textSalinity.text = it["sensor_salinity"]
-//        })
+        dashboardViewModel.data.observe(viewLifecycleOwner, {
+            list = it
+            showRecyclerView()
+        })
+
 
         return root
     }
@@ -54,5 +56,21 @@ class DashboardFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showRecyclerView() {
+        rvSensor.layoutManager = LinearLayoutManager(this.context)
+        val listSensorAdapter = ListSensorAdapter(list)
+        rvSensor.adapter = listSensorAdapter
+    }
+
+    private fun showLoading(bool: Boolean) {
+        if (bool) {
+            pbDashboard.visibility = View.VISIBLE
+            rvSensor.visibility = View.GONE
+        } else {
+            pbDashboard.visibility = View.GONE
+            rvSensor.visibility = View.VISIBLE
+        }
     }
 }
