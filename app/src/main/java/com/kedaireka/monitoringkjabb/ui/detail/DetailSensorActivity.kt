@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -26,6 +27,7 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var tvTitle: TextView
     private lateinit var tvValue: TextView
     private lateinit var tvStatus: TextView
+    private lateinit var pbDetail: ProgressBar
     private lateinit var lineChart: LineChart
     private lateinit var banner: LinearLayout
 
@@ -43,6 +45,7 @@ class DetailSensorActivity : AppCompatActivity() {
         tvValue = binding.tvValue
         tvStatus = binding.tvStatus
         banner = binding.banner
+        pbDetail = binding.pbDetail
         lineChart = binding.lineChart
 
         val data: Sensor = intent.extras?.get("data") as Sensor
@@ -57,8 +60,10 @@ class DetailSensorActivity : AppCompatActivity() {
 
         detailSensorViewModel.isLoading.observe(this, {
             if (it) {
+                pbDetail.visibility = View.VISIBLE
                 lineChart.visibility = View.INVISIBLE
             } else {
+                pbDetail.visibility = View.GONE
                 lineChart.visibility = View.VISIBLE
             }
         })
@@ -114,15 +119,16 @@ class DetailSensorActivity : AppCompatActivity() {
     }
 
     private fun setDOLineChart(lineChart: LineChart, records: ArrayList<Sensor>) {
-        
+
         val xValue = ArrayList<String>()
         val lineEntry = ArrayList<Entry>()
+        val size = records.size
 
-        for (i in 0 until records.size) {
-            val df = DateFormat.format("hha", records[i].created_at.toDate())
+        for (i in 0 until size) {
+            val df = DateFormat.format("hha", records[size - i - 1].created_at.toDate())
 
             xValue.add(df.toString())
-            lineEntry.add(Entry(i.toFloat(), records[i].value.toFloat()))
+            lineEntry.add(Entry(i.toFloat(), records[size - i - 1].value.toFloat()))
         }
 
         val lineDataSet = LineDataSet(lineEntry, records[0].name)
