@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kedaireka.monitoringkjabb.R
-import com.kedaireka.monitoringkjabb.activity.DetailSensorActivity
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.ui.detail.DetailSensorActivity
 
 class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
     RecyclerView.Adapter<ListSensorAdapter.ListViewHolder>() {
@@ -33,7 +33,7 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, value, unit, status, created_at, urlIcon) = listSensor[position]
+        val (id, name, value, unit, status, created_at, urlIcon) = listSensor[position]
         val displayValue = "$value $unit"
 
         holder.tvName.text = name

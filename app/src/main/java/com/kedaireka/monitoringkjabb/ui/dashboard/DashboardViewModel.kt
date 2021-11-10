@@ -34,6 +34,7 @@ class DashboardViewModel : ViewModel() {
             .addOnSuccessListener { result ->
                 val sensorData = arrayListOf<Sensor>()
                 for (document in result) {
+                    val id = document.id
                     val name = document["name"].toString()
                     val value = document["value"].toString()
                     val unit = document["unit"].toString()
@@ -41,7 +42,7 @@ class DashboardViewModel : ViewModel() {
                     val createdAt = document["created_at"] as Timestamp
                     val urlIcon = document["url_icon"].toString()
 
-                    sensorData.add(Sensor(name, value, unit, status, createdAt, urlIcon))
+                    sensorData.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
                 }
                 _data.postValue(sensorData)
                 _isLoading.postValue(false)

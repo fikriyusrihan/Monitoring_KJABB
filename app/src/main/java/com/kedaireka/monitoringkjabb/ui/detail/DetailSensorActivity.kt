@@ -1,10 +1,13 @@
-package com.kedaireka.monitoringkjabb.activity
+package com.kedaireka.monitoringkjabb.ui.detail
 
 import android.os.Bundle
+import android.text.format.DateFormat
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -18,13 +21,20 @@ import com.kedaireka.monitoringkjabb.model.Sensor
 class DetailSensorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailSensorBinding
+    private lateinit var detailSensorViewModel: DetailSensorViewModel
+
     private lateinit var tvTitle: TextView
     private lateinit var tvValue: TextView
     private lateinit var tvStatus: TextView
+    private lateinit var lineChart: LineChart
     private lateinit var banner: LinearLayout
+
+    private lateinit var records: ArrayList<Sensor>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        detailSensorViewModel = ViewModelProvider(this)[DetailSensorViewModel::class.java]
 
         binding = ActivityDetailSensorBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -33,17 +43,31 @@ class DetailSensorActivity : AppCompatActivity() {
         tvValue = binding.tvValue
         tvStatus = binding.tvStatus
         banner = binding.banner
+        lineChart = binding.lineChart
 
         val data: Sensor = intent.extras?.get("data") as Sensor
         setData(data)
+
+        detailSensorViewModel.getSensorRecords(data)
+
+        detailSensorViewModel.dataSensor.observe(this, {
+            records = it
+            setDOLineChart(lineChart, records)
+        })
+
+        detailSensorViewModel.isLoading.observe(this, {
+            if (it) {
+                lineChart.visibility = View.INVISIBLE
+            } else {
+                lineChart.visibility = View.VISIBLE
+            }
+        })
 
         val btnBack = binding.btnBack
         btnBack.setOnClickListener {
             finish()
         }
 
-        val lineChart = binding.lineChart
-        setDOLineChart(lineChart, data)
     }
 
     private fun setData(sensor: Sensor) {
@@ -89,27 +113,22 @@ class DetailSensorActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDOLineChart(lineChart: LineChart, sensor: Sensor) {
+    private fun setDOLineChart(lineChart: LineChart, records: ArrayList<Sensor>) {
+        
         val xValue = ArrayList<String>()
-        xValue.add("7am")
-        xValue.add("10am")
-        xValue.add("1pm")
-        xValue.add("4pm")
-        xValue.add("7pm")
-        xValue.add("10pm")
-
         val lineEntry = ArrayList<Entry>()
-        lineEntry.add(Entry(0F, 6.2F))
-        lineEntry.add(Entry(1F, 7.1F))
-        lineEntry.add(Entry(2F, 6.5F))
-        lineEntry.add(Entry(3F, 6.8F))
-        lineEntry.add(Entry(4F, 7.4F))
-        lineEntry.add(Entry(5F, 6.9F))
 
-        val lineDataSet = LineDataSet(lineEntry, sensor.name)
+        for (i in 0 until records.size) {
+            val df = DateFormat.format("hha", records[i].created_at.toDate())
+
+            xValue.add(df.toString())
+            lineEntry.add(Entry(i.toFloat(), records[i].value.toFloat()))
+        }
+
+        val lineDataSet = LineDataSet(lineEntry, records[0].name)
         lineDataSet.circleColors =
             mutableListOf(ContextCompat.getColor(applicationContext, R.color.grey_light))
-        when (sensor.status) {
+        when (records[0].status) {
             0 -> {
                 lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.blue_primary)
             }
@@ -135,4 +154,5 @@ class DetailSensorActivity : AppCompatActivity() {
         lineChart.setScaleEnabled(false)
 
     }
+
 }

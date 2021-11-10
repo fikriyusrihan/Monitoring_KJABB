@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Sensor(
+    var id: String,
     var name: String,
     var value: String,
     var unit: String,
