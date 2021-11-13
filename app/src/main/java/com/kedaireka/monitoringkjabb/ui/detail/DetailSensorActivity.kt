@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -73,6 +74,18 @@ class DetailSensorActivity : AppCompatActivity() {
             finish()
         }
 
+        val btnSetThreshold = binding.cvThresholdSetting
+        btnSetThreshold.setOnClickListener {
+            val toast = Toast.makeText(this, "Setting Threshold", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+
+        val btnDownload = binding.cvDownloadData
+        btnDownload.setOnClickListener {
+            val toast = Toast.makeText(this, "Downloading data", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+
     }
 
     private fun setData(sensor: Sensor) {
@@ -125,7 +138,7 @@ class DetailSensorActivity : AppCompatActivity() {
         val size = records.size
 
         for (i in 0 until size) {
-            val df = DateFormat.format("hha", records[size - i - 1].created_at.toDate())
+            val df = DateFormat.format("ha", records[size - i - 1].created_at.toDate())
 
             xValue.add(df.toString())
             lineEntry.add(Entry(i.toFloat(), records[size - i - 1].value.toFloat()))
