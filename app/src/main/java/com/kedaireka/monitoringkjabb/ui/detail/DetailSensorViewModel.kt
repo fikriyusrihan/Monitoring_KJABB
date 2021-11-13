@@ -22,6 +22,9 @@ class DetailSensorViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading = _isLoading
 
+    private val _thresholds = MutableLiveData<Map<String, String>>()
+    val thresholds = _thresholds
+
     fun getSensorRecords(sensor: Sensor) {
         _isLoading.value = true
         val db = Firebase.firestore
@@ -42,6 +45,24 @@ class DetailSensorViewModel : ViewModel() {
                 }
                 _isLoading.postValue(false)
                 _dataSensor.postValue(records)
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Error getting documents: ", it)
+            }
+    }
+
+    fun getThresholdsData(sensor: Sensor) {
+        val db = Firebase.firestore
+        db.collection("sensors").document(sensor.id).collection("thresholds")
+            .document("data")
+            .get()
+            .addOnSuccessListener {
+                val dataThreshold = mapOf(
+                    "upper" to it["upper"].toString(),
+                    "lower" to it["lower"].toString(),
+                )
+
+                _thresholds.postValue(dataThreshold)
             }
             .addOnFailureListener {
                 Log.d(TAG, "Error getting documents: ", it)

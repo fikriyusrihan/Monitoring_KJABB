@@ -16,6 +16,10 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
@@ -31,6 +35,7 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var pbDetail: ProgressBar
     private lateinit var lineChart: LineChart
     private lateinit var banner: LinearLayout
+    private lateinit var thresholdStatus: TextView
 
     private lateinit var records: ArrayList<Sensor>
 
@@ -48,11 +53,13 @@ class DetailSensorActivity : AppCompatActivity() {
         banner = binding.banner
         pbDetail = binding.pbDetail
         lineChart = binding.lineChart
+        thresholdStatus = binding.tvThresholdsStatus
 
         val data: Sensor = intent.extras?.get("data") as Sensor
         setData(data)
 
         detailSensorViewModel.getSensorRecords(data)
+        detailSensorViewModel.getThresholdsData(data)
 
         detailSensorViewModel.dataSensor.observe(this, {
             records = it
@@ -69,6 +76,13 @@ class DetailSensorActivity : AppCompatActivity() {
             }
         })
 
+        detailSensorViewModel.thresholds.observe(this, { result ->
+            val thresholdLower = result["lower"].toString()
+            val thresholdUpper = result["upper"].toString()
+
+            setThresholdStatus(thresholdUpper, thresholdLower, data)
+        })
+
         val btnBack = binding.btnBack
         btnBack.setOnClickListener {
             finish()
@@ -76,8 +90,45 @@ class DetailSensorActivity : AppCompatActivity() {
 
         val btnSetThreshold = binding.cvThresholdSetting
         btnSetThreshold.setOnClickListener {
-            val toast = Toast.makeText(this, "Setting Threshold", Toast.LENGTH_SHORT)
-            toast.show()
+
+            val formView = layoutInflater.inflate(R.layout.setting_threshold, null, false)
+            val edtLowerLimit = formView.findViewById<TextInputLayout>(R.id.et_threshold_lower)
+            val edtUpperLimit = formView.findViewById<TextInputLayout>(R.id.et_threshold_upper)
+
+            edtLowerLimit.suffixText = data.unit
+            edtUpperLimit.suffixText = data.unit
+
+            MaterialAlertDialogBuilder(this)
+                .setView(formView)
+                .setTitle("Setting Threshold")
+                .setNegativeButton("Cancel") { _, _ ->
+                    val toast =
+                        Toast.makeText(this, "Data Not Change", Toast.LENGTH_SHORT).show()
+                }
+                .setPositiveButton("Set") { _, _ ->
+                    val upperValue = edtUpperLimit.editText?.text.toString()
+                    val lowerValue = edtLowerLimit.editText?.text.toString()
+
+                    val threshold = hashMapOf(
+                        "upper" to upperValue,
+                        "lower" to lowerValue,
+                    )
+
+                    Firebase.firestore.collection("sensors").document(data.id)
+                        .collection("thresholds").document("data")
+                        .set(threshold)
+                        .addOnSuccessListener {
+                            val toast =
+                                Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            val toast =
+                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                        }
+
+                    setThresholdStatus(upperValue, lowerValue, data)
+                }
+                .show()
         }
 
         val btnDownload = binding.cvDownloadData
@@ -94,6 +145,11 @@ class DetailSensorActivity : AppCompatActivity() {
         tvValue.text = displayValue
         parseStatus(sensor.status)
 
+    }
+
+    private fun setThresholdStatus(upper: String, lower: String, sensor: Sensor) {
+        val text = "$lower - $upper ${sensor.unit}"
+        thresholdStatus.text = text
     }
 
     private fun parseStatus(status: Int) {
