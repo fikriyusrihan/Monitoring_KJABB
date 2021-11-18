@@ -1,5 +1,7 @@
 package com.kedaireka.monitoringkjabb.ui.detail
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.view.View
@@ -8,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
@@ -23,6 +26,14 @@ import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
+import android.net.Uri
+
+import android.content.Intent
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
+import com.kedaireka.monitoringkjabb.utils.ExcelUtils
+
 
 class DetailSensorActivity : AppCompatActivity() {
 
@@ -38,6 +49,11 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var thresholdStatus: TextView
 
     private lateinit var records: ArrayList<Sensor>
+
+    companion object {
+        private const val STORAGE_PERMISSION_CODE = 101
+        private const val MANAGE_STORAGE_PERMISSION_CODE = 102
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,11 +149,53 @@ class DetailSensorActivity : AppCompatActivity() {
 
         val btnDownload = binding.cvDownloadData
         btnDownload.setOnClickListener {
-            val toast = Toast.makeText(this, "Downloading data", Toast.LENGTH_SHORT)
-            toast.show()
-        }
 
+            // Check storage permission before download
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                checkPermission(Manifest.permission.MANAGE_EXTERNAL_STORAGE, MANAGE_STORAGE_PERMISSION_CODE)
+
+                if (!Environment.isExternalStorageManager()) {
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                    val uri = Uri.fromParts("package", this.packageName, null)
+                    intent.data = uri
+                    startActivity(intent)
+                }
+
+            } else {
+                checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
+            }
+
+            // Generate Data
+            ExcelUtils.createExcelWorkbook(application, "coba.xlsx")
+        }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this@DetailSensorActivity, "Storage permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@DetailSensorActivity, "Storage permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun checkPermission(permission: String, requestCode: Int) {
+        if (ContextCompat.checkSelfPermission(this@DetailSensorActivity, permission) == PackageManager.PERMISSION_DENIED) {
+            // Requesting permission
+            ActivityCompat.requestPermissions(this@DetailSensorActivity, arrayOf(permission), requestCode)
+        } else {
+            Toast.makeText(this@DetailSensorActivity, "Permission already granted", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 
     private fun setData(sensor: Sensor) {
         val displayValue = "${sensor.value} ${sensor.unit}"
