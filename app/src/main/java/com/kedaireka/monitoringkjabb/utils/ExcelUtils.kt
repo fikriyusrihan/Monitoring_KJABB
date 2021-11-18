@@ -1,7 +1,9 @@
 package com.kedaireka.monitoringkjabb.utils
 
 import android.content.Context
+import android.text.format.DateFormat
 import android.util.Log
+import com.kedaireka.monitoringkjabb.model.Sensor
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.IndexedColorMap
 import org.apache.poi.xssf.usermodel.XSSFColor
@@ -10,13 +12,15 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 abstract class ExcelUtils {
 
     companion object {
 
-        fun createExcel(context: Context, workbook: Workbook) {
+        fun createExcel(context: Context, workbook: Workbook, sensor: Sensor) {
 
             //Get App Director, APP_DIRECTORY_NAME is a string
             val appDirectory = context.getExternalFilesDir("KJABB")
@@ -27,7 +31,8 @@ abstract class ExcelUtils {
             }
 
             //Create excel file with extension .xlsx
-            val excelFile = File(appDirectory, "Coba.xlsx")
+            val timestamp = DateFormat.format("yyyy-MM-dd hh:mm:ss a", Date())
+            val excelFile = File(appDirectory, "${sensor.name}-$timestamp.xlsx")
 
             //Write workbook to file using FileOutputStream
             try {
@@ -43,7 +48,7 @@ abstract class ExcelUtils {
             }
         }
 
-        fun createWorkbook(): Workbook {
+        fun createWorkbook(data: ArrayList<Sensor>): Workbook {
             System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl")
             System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl")
             System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl")
@@ -60,7 +65,10 @@ abstract class ExcelUtils {
             createSheetHeader(cellStyle, sheet)
 
             // Adding data to the sheet
-            addData(1, sheet)
+            for (i in 0 until data.size) {
+                addData(i + 1, sheet, data[i])
+            }
+
 
             return workbook
         }
@@ -70,15 +78,16 @@ abstract class ExcelUtils {
             cell?.setCellValue(value)
         }
 
-        private fun addData(rowIndex: Int, sheet: Sheet) {
+        private fun addData(rowIndex: Int, sheet: Sheet, data: Sensor) {
 
             //Create row based on row index
             val row = sheet.createRow(rowIndex)
+            val df = DateFormat.format("yyyy-MM-dd hh:mm:ss a", data.created_at.toDate())
 
-            //Add data to each cell
-            createCell(row, 0, "value 1") //Column 1
-            createCell(row, 1, "value 2") //Column 2
-            createCell(row, 2, "value 3") //Column 3
+            createCell(row, 0, df.toString()) //Column 1
+            createCell(row, 1, data.id) //Column 2
+            createCell(row, 2, data.name) //Column 3
+            createCell(row, 3, data.value) //Column 4
         }
 
         private fun createSheetHeader(cellStyle: CellStyle, sheet: Sheet) {
@@ -86,7 +95,7 @@ abstract class ExcelUtils {
             val row = sheet.createRow(0)
 
             // Header List
-            val HEADER_LIST = listOf("column_1", "column_2", "column_3")
+            val HEADER_LIST = listOf("Timestamp", "ID", "Sensor", "Nilai")
 
             // Loop to populate each column of header row
             for ((index, value) in HEADER_LIST.withIndex()) {

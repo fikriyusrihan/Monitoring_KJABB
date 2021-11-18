@@ -40,4 +40,5 @@
     <string name="batas_bawah">Batas bawah</string>
     <string name="upper_limit">Upper Limit</string>
     <string name="lower_limit">Lower Limit</string>
+    <string name="save_as_xslx">Save as .xslx</string>
 </resources>

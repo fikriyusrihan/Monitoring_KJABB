@@ -1,8 +1,11 @@
 package com.kedaireka.monitoringkjabb.ui.detail
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Bundle
+import android.net.Uri
+import android.os.*
+import android.provider.Settings
 import android.text.format.DateFormat
 import android.view.View
 import android.widget.LinearLayout
@@ -26,13 +29,8 @@ import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
-import android.net.Uri
-
-import android.content.Intent
-import android.os.Build
-import android.os.Environment
-import android.provider.Settings
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
+import java.util.concurrent.Executors
 
 
 class DetailSensorActivity : AppCompatActivity() {
@@ -144,12 +142,17 @@ class DetailSensorActivity : AppCompatActivity() {
                 .show()
         }
 
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
         val btnDownload = binding.cvDownloadData
         btnDownload.setOnClickListener {
 
             // Check storage permission before download
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                checkPermission(Manifest.permission.MANAGE_EXTERNAL_STORAGE, MANAGE_STORAGE_PERMISSION_CODE)
+                checkPermission(
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                    MANAGE_STORAGE_PERMISSION_CODE
+                )
 
                 if (!Environment.isExternalStorageManager()) {
                     val intent = Intent()
@@ -164,10 +167,19 @@ class DetailSensorActivity : AppCompatActivity() {
             }
 
             // Generate Data
-            val workbook = ExcelUtils.createWorkbook()
-            ExcelUtils.createExcel(applicationContext, workbook)
+            Toast.makeText(this, "Saving Data", Toast.LENGTH_SHORT).show()
+            executor.execute {
+                val workbook = ExcelUtils.createWorkbook(records)
+                ExcelUtils.createExcel(applicationContext, workbook, data)
+
+                handler.post {
+                    Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -192,7 +204,6 @@ class DetailSensorActivity : AppCompatActivity() {
             Toast.makeText(this@DetailSensorActivity, "Permission already granted", Toast.LENGTH_SHORT).show()
         }
     }
-
 
 
     private fun setData(sensor: Sensor) {

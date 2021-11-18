@@ -210,7 +210,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/download" />
+                android:text="@string/save_as_xslx" />
 
         </LinearLayout>
 
