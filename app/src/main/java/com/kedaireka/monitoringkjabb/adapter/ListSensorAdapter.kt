@@ -33,7 +33,7 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (id, name, value, unit, status, created_at, urlIcon) = listSensor[position]
+        val (_, name, value, unit, status, _, urlIcon) = listSensor[position]
         val displayValue = "$value $unit"
 
         holder.tvName.text = name

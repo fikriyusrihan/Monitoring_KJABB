@@ -118,8 +118,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 .setView(formView)
                 .setTitle("Setting Threshold")
                 .setNegativeButton("Cancel") { _, _ ->
-                    val toast =
-                        Toast.makeText(this, "Data Not Change", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Data Not Change", Toast.LENGTH_SHORT).show()
                 }
                 .setPositiveButton("Set") { _, _ ->
                     val upperValue = edtUpperLimit.editText?.text.toString()
@@ -134,12 +133,10 @@ class DetailSensorActivity : AppCompatActivity() {
                         .collection("thresholds").document("data")
                         .set(threshold)
                         .addOnSuccessListener {
-                            val toast =
-                                Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
                         }
                         .addOnFailureListener {
-                            val toast =
-                                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
                         }
 
                     setThresholdStatus(upperValue, lowerValue, data)
@@ -167,7 +164,8 @@ class DetailSensorActivity : AppCompatActivity() {
             }
 
             // Generate Data
-            ExcelUtils.createExcelWorkbook(application, "coba.xlsx")
+            val workbook = ExcelUtils.createWorkbook()
+            ExcelUtils.createExcel(applicationContext, workbook)
         }
     }
 
