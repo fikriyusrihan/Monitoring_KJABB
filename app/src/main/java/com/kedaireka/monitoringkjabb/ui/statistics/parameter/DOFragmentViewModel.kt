@@ -1,55 +1,50 @@
-package com.kedaireka.monitoringkjabb.ui.dashboard
+package com.kedaireka.monitoringkjabb.ui.statistics.parameter
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.model.Sensor
 
-class DashboardViewModel : ViewModel() {
+class DOFragmentViewModel : ViewModel() {
 
     companion object {
-        private const val TAG = "DashboardViewModel"
+        private const val TAG = "DOFragmentViewModel"
     }
+
+    private val _records = MutableLiveData<ArrayList<Sensor>>()
+    val records: LiveData<ArrayList<Sensor>> = _records
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _data = MutableLiveData<ArrayList<Sensor>>()
-    val data : LiveData<ArrayList<Sensor>> = _data
-
-    init {
-        getSensorsData()
-    }
-
-    private fun getSensorsData() {
+    fun getDORecord(sensor: Sensor) {
         _isLoading.postValue(true)
         val db = Firebase.firestore
-        db.collection("sensors")
+        db.collection("sensors").document(sensor.id).collection("records")
+            .orderBy("created_at", Query.Direction.DESCENDING).limit(10L)
             .get()
             .addOnSuccessListener { result ->
-                val sensorData = arrayListOf<Sensor>()
+                val records = arrayListOf<Sensor>()
                 for (document in result) {
-                    val id = document.id
-                    val name = document["name"].toString()
+                    val id = sensor.id
+                    val name = sensor.name
                     val value = document["value"].toString()
-                    val unit = document["unit"].toString()
+                    val unit = sensor.unit
                     val status = document["status"].toString().toInt()
                     val createdAt = document["created_at"] as Timestamp
-                    val urlIcon = document["url_icon"].toString()
-
-                    sensorData.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
+                    val urlIcon = sensor.urlIcon
+                    records.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
                 }
-                _data.postValue(sensorData)
                 _isLoading.postValue(false)
+                _records.postValue(records)
             }
             .addOnFailureListener {
                 Log.d(TAG, "Error getting documents: ", it)
             }
     }
-
 }

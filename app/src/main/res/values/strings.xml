@@ -35,6 +35,10 @@
     <string name="value">Value</string>
     <string name="parameter_icon">Parameter Icon</string>
     <string name="current_threshold">Current Threshold</string>
-    <string name="threshold_dummy">5.6 – 7.4 mg/l</string>
+    <string name="threshold_dummy"> – </string>
     <string name="download_records">Download Records</string>
+    <string name="batas_bawah">Batas bawah</string>
+    <string name="upper_limit">Upper Limit</string>
+    <string name="lower_limit">Lower Limit</string>
+    <string name="save_as_xslx">Save as .xslx</string>
 </resources>
