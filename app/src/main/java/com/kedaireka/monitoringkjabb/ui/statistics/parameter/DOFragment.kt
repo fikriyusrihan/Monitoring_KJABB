@@ -1,10 +1,13 @@
 package com.kedaireka.monitoringkjabb.ui.statistics.parameter
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,12 +21,15 @@ import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.FragmentDOBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import java.util.*
+import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
 class DOFragment : Fragment() {
 
     private lateinit var doFragmentViewModel: DOFragmentViewModel
+    private lateinit var allRecords: ArrayList<Sensor>
 
     private var _binding: FragmentDOBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +45,10 @@ class DOFragment : Fragment() {
 
         val sensor = getLatestSensor()
         doFragmentViewModel.getDORecord(sensor)
+        doFragmentViewModel.getAllDORecord(sensor)
+        doFragmentViewModel.allRecord.observe(viewLifecycleOwner, { result ->
+            allRecords = result
+        })
 
         doFragmentViewModel.records.observe(viewLifecycleOwner, { result ->
             val lineChart = binding.lineChart
@@ -54,6 +64,25 @@ class DOFragment : Fragment() {
                 binding.lineChart.visibility = View.VISIBLE
             }
         })
+
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+        binding.button.setOnClickListener {
+            Toast.makeText(this.requireContext(), "Saving Data", Toast.LENGTH_SHORT).show()
+
+            executor.execute {
+                val workbook = ExcelUtils.createWorkbook(allRecords)
+                ExcelUtils.createExcel(
+                    this.requireContext().applicationContext,
+                    workbook,
+                    sensor
+                )
+
+                handler.post {
+                    Toast.makeText(this.requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
         return root
     }
