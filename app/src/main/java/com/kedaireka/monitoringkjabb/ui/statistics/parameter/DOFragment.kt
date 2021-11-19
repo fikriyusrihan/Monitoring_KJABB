@@ -58,7 +58,7 @@ class DOFragment : Fragment() {
         doFragmentViewModel.isLoading.observe(viewLifecycleOwner, {
             if (it) {
                 binding.pbLoading.visibility = View.VISIBLE
-                binding.lineChart.visibility = View.GONE
+                binding.lineChart.visibility = View.INVISIBLE
             } else {
                 binding.pbLoading.visibility = View.GONE
                 binding.lineChart.visibility = View.VISIBLE
