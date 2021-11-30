@@ -67,7 +67,7 @@ class DashboardFragment : Fragment() {
     private fun showLoading(bool: Boolean) {
         if (bool) {
             pbDashboard.visibility = View.VISIBLE
-            rvSensor.visibility = View.GONE
+            rvSensor.visibility = View.INVISIBLE
         } else {
             pbDashboard.visibility = View.GONE
             rvSensor.visibility = View.VISIBLE

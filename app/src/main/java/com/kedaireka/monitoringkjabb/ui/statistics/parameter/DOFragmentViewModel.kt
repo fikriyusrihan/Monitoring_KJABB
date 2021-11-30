@@ -22,6 +22,9 @@ class DOFragmentViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _allRecord = MutableLiveData<ArrayList<Sensor>>()
+    val allRecord: LiveData<ArrayList<Sensor>> = _allRecord
+
     fun getDORecord(sensor: Sensor) {
         _isLoading.postValue(true)
         val db = Firebase.firestore
@@ -42,6 +45,30 @@ class DOFragmentViewModel : ViewModel() {
                 }
                 _isLoading.postValue(false)
                 _records.postValue(records)
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Error getting documents: ", it)
+            }
+    }
+
+    fun getAllDORecord(sensor: Sensor) {
+        val db = Firebase.firestore
+        db.collection("sensors").document(sensor.id).collection("records")
+            .orderBy("created_at", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { result ->
+                val records = arrayListOf<Sensor>()
+                for (document in result) {
+                    val id = sensor.id
+                    val name = sensor.name
+                    val value = document["value"].toString()
+                    val unit = sensor.unit
+                    val status = document["status"].toString().toInt()
+                    val createdAt = document["created_at"] as Timestamp
+                    val urlIcon = sensor.urlIcon
+                    records.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
+                }
+                _allRecord.postValue(records)
             }
             .addOnFailureListener {
                 Log.d(TAG, "Error getting documents: ", it)
