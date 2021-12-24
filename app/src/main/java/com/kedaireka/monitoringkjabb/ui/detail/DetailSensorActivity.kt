@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.util.Pair
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -31,7 +32,9 @@ import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
+import java.util.*
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 
 class DetailSensorActivity : AppCompatActivity() {
@@ -105,49 +108,14 @@ class DetailSensorActivity : AppCompatActivity() {
 
         val btnSetThreshold = binding.cvThresholdSetting
         btnSetThreshold.setOnClickListener {
-
-            val formView = layoutInflater.inflate(R.layout.setting_threshold, null, false)
-            val edtLowerLimit = formView.findViewById<TextInputLayout>(R.id.et_threshold_lower)
-            val edtUpperLimit = formView.findViewById<TextInputLayout>(R.id.et_threshold_upper)
-
-            edtLowerLimit.suffixText = data.unit
-            edtUpperLimit.suffixText = data.unit
-
-            MaterialAlertDialogBuilder(this)
-                .setView(formView)
-                .setTitle("Setting Threshold")
-                .setNegativeButton("Cancel") { _, _ ->
-                    Toast.makeText(this, "Data Not Change", Toast.LENGTH_SHORT).show()
-                }
-                .setPositiveButton("Set") { _, _ ->
-                    val upperValue = edtUpperLimit.editText?.text.toString()
-                    val lowerValue = edtLowerLimit.editText?.text.toString()
-
-                    val threshold = hashMapOf(
-                        "upper" to upperValue,
-                        "lower" to lowerValue,
-                    )
-
-                    Firebase.firestore.collection("sensors").document(data.id)
-                        .collection("thresholds").document("data")
-                        .set(threshold)
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                        }
-
-                    setThresholdStatus(upperValue, lowerValue, data)
-                }
-                .show()
+            showSetThresholdDialog(data)
         }
 
         val executor = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
+
         val btnDownload = binding.cvDownloadData
         btnDownload.setOnClickListener {
-
             // Check storage permission before download
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 checkPermission(
@@ -167,17 +135,32 @@ class DetailSensorActivity : AppCompatActivity() {
                 checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
             }
 
-            // Generate Data
-            Toast.makeText(this, "Saving Data", Toast.LENGTH_SHORT).show()
+            val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select dates")
+                .setSelection(
+                    Pair(
+                        MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                        MaterialDatePicker.todayInUtcMilliseconds()
+                    )
+                )
+                .build()
 
-            executor.execute {
-                val workbook = ExcelUtils.createWorkbook(records)
-                ExcelUtils.createExcel(applicationContext, workbook, data)
+            dateRangePicker.addOnPositiveButtonClickListener {
+                // Generate Data
+                Toast.makeText(this, "Saving Data", Toast.LENGTH_SHORT).show()
 
-                handler.post {
-                    Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+
+
+                executor.execute {
+                    val workbook = ExcelUtils.createWorkbook(records)
+                    ExcelUtils.createExcel(applicationContext, workbook, data)
+
+                    handler.post {
+                        Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+            dateRangePicker.show(supportFragmentManager, "DetailSensorActivity")
 
         }
     }
@@ -299,4 +282,63 @@ class DetailSensorActivity : AppCompatActivity() {
 
     }
 
+    private fun showSetThresholdDialog(data: Sensor) {
+        val formView = layoutInflater.inflate(R.layout.setting_threshold, null, false)
+        val edtLowerLimit = formView.findViewById<TextInputLayout>(R.id.et_threshold_lower)
+        val edtUpperLimit = formView.findViewById<TextInputLayout>(R.id.et_threshold_upper)
+
+        edtLowerLimit.suffixText = data.unit
+        edtUpperLimit.suffixText = data.unit
+
+        MaterialAlertDialogBuilder(this)
+            .setView(formView)
+            .setTitle("Setting Threshold")
+            .setNegativeButton("Cancel") { _, _ ->
+                Toast.makeText(this, "Data Not Change", Toast.LENGTH_SHORT).show()
+            }
+            .setPositiveButton(
+                "Set"
+            ) { dialog, _ ->
+                val upperValue = edtUpperLimit.editText?.text.toString()
+                val lowerValue = edtLowerLimit.editText?.text.toString()
+
+                val isValid = upperValue != "" || lowerValue != ""
+
+                if (!isValid) {
+                    Toast.makeText(
+                        this@DetailSensorActivity,
+                        "Data not valid",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dialog.dismiss()
+                } else {
+                    val threshold = hashMapOf(
+                        "upper" to upperValue,
+                        "lower" to lowerValue,
+                    )
+
+                    Firebase.firestore.collection("sensors").document(data.id)
+                        .collection("thresholds").document("data")
+                        .set(threshold)
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                this@DetailSensorActivity,
+                                "Data Saved",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(
+                                this@DetailSensorActivity,
+                                "Failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    setThresholdStatus(upperValue, lowerValue, data)
+                }
+            }.show()
+    }
+
 }
+

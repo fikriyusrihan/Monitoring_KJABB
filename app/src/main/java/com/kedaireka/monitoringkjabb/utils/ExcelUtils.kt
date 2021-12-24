@@ -1,11 +1,11 @@
 package com.kedaireka.monitoringkjabb.utils
 
 import android.content.Context
-import android.os.Environment
 import android.text.format.DateFormat
 import android.util.Log
 import com.kedaireka.monitoringkjabb.model.Sensor
 import org.apache.poi.ss.usermodel.*
+import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.usermodel.IndexedColorMap
 import org.apache.poi.xssf.usermodel.XSSFColor
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -14,7 +14,6 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 abstract class ExcelUtils {
@@ -50,26 +49,42 @@ abstract class ExcelUtils {
         }
 
         fun createWorkbook(data: ArrayList<Sensor>): Workbook {
-            System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl")
-            System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl")
-            System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl")
+            System.setProperty(
+                "org.apache.poi.javax.xml.stream.XMLInputFactory",
+                "com.fasterxml.aalto.stax.InputFactoryImpl"
+            )
+            System.setProperty(
+                "org.apache.poi.javax.xml.stream.XMLOutputFactory",
+                "com.fasterxml.aalto.stax.OutputFactoryImpl"
+            )
+            System.setProperty(
+                "org.apache.poi.javax.xml.stream.XMLEventFactory",
+                "com.fasterxml.aalto.stax.EventFactoryImpl"
+            )
 
             val workbook = XSSFWorkbook()
 
             // Creating first sheet inside workbook
             val sheet: Sheet = workbook.createSheet("Rekap Data")
 
-            // Create Header Cell Style
-            val cellStyle = getHeaderStyle(workbook)
+            // Set column width for every cell
+            sheet.setColumnWidth(0, 3000)
+
+            // Create Cell Style
+            val cellHeaderStyle = getHeaderStyle(workbook)
+            val cellTitleStyle = getTitleStyle(workbook)
+
+            // Creating sheet title row
+            createSheetTitle(cellTitleStyle, sheet)
 
             // Creating sheet header row
-            createSheetHeader(cellStyle, sheet)
+            createSheetSensorInformation(cellHeaderStyle, sheet, data[0])
+            createSheetHeader(cellHeaderStyle, sheet)
 
             // Adding data to the sheet
             for (i in 0 until data.size) {
-                addData(i + 1, sheet, data[i])
+                addData(i + 12, sheet, data[i])
             }
-
 
             return workbook
         }
@@ -85,36 +100,88 @@ abstract class ExcelUtils {
             val row = sheet.createRow(rowIndex)
             val df = DateFormat.format("yyyy-MM-dd hh:mm:ss a", data.created_at.toDate())
 
-            createCell(row, 0, df.toString()) //Column 1
-            createCell(row, 1, data.id) //Column 2
-            createCell(row, 2, data.name) //Column 3
-            createCell(row, 3, data.value) //Column 4
+            createCell(row, 0, (rowIndex - 11).toString()) //Column 1
+            createCell(row, 1, df.toString()) //Column 2
+            sheet.addMergedRegion(CellRangeAddress(rowIndex, rowIndex, 1, 7))
+            createCell(row, 8, data.value) //Column 4
         }
 
         private fun createSheetHeader(cellStyle: CellStyle, sheet: Sheet) {
-            // Create sheet first row
-            val row = sheet.createRow(0)
+
+            // Create sheet 11th row
+            val row = sheet.createRow(11)
 
             // Header List
-            val HEADER_LIST = listOf("Timestamp", "ID", "Sensor", "Nilai")
+            val HEADER_LIST = listOf("No", "Timestamp", "Nilai")
 
-            // Loop to populate each column of header row
-            for ((index, value) in HEADER_LIST.withIndex()) {
+            //Create cell
+            val cellNo = row.createCell(0)
+            val cellTimestamp = row.createCell(1)
+            sheet.addMergedRegion(CellRangeAddress(11, 11, 1, 7))
+            val cellNilai = row.createCell(8)
 
-                val columnWidth = (15 * 500)
+            //value represents the header value from HEADER_LIST
+            cellNo.setCellValue(HEADER_LIST[0])
+            cellTimestamp.setCellValue(HEADER_LIST[1])
+            cellNilai.setCellValue(HEADER_LIST[2])
 
-                //index represents the column number
-                sheet.setColumnWidth(index, columnWidth)
+            //Apply style to cell
+            cellNo.cellStyle = cellStyle
+            cellTimestamp.cellStyle = cellStyle
+            cellNilai.cellStyle = cellStyle
+        }
 
-                //Create cell
-                val cell = row.createCell(index)
+        private fun createSheetSensorInformation(
+            cellStyle: CellStyle,
+            sheet: Sheet,
+            sensor: Sensor
+        ) {
+            // Create sheet 6th row
+            val row = sheet.createRow(5)
+            val cell = row.createCell(0)
+            sheet.addMergedRegion(CellRangeAddress(5, 5, 0, 8))
+            cell.setCellValue("INFORMASI SENSOR")
+            cell.cellStyle = cellStyle
 
-                //value represents the header value from HEADER_LIST
-                cell?.setCellValue(value)
+            // Sensor Information
+            val rowID = sheet.createRow(6)
+            val cellID = rowID.createCell(0)
+            cellID.setCellValue("ID")
+            val cellIDValue = rowID.createCell(1)
+            sheet.addMergedRegion(CellRangeAddress(6, 6, 1, 8))
+            cellIDValue.setCellValue(sensor.id)
 
-                //Apply style to cell
-                cell.cellStyle = cellStyle
-            }
+            val rowNama = sheet.createRow(7)
+            val cellNama = rowNama.createCell(0)
+            cellNama.setCellValue("Nama")
+            val cellNameValue = rowNama.createCell(1)
+            sheet.addMergedRegion(CellRangeAddress(7, 7, 1, 8))
+            cellNameValue.setCellValue(sensor.name)
+
+            val rowSatuan = sheet.createRow(8)
+            val cellSatuan = rowSatuan.createCell(0)
+            cellSatuan.setCellValue("Satuan")
+            val cellSatuanValue = rowSatuan.createCell(1)
+            sheet.addMergedRegion(CellRangeAddress(8, 8, 1, 8))
+            cellSatuanValue.setCellValue(sensor.unit)
+
+        }
+
+        private fun createSheetTitle(cellStyle: CellStyle, sheet: Sheet) {
+            // Create sheet
+            val rowFirstTitle = sheet.createRow(1)
+            val cellFirstTitle = rowFirstTitle.createCell(0)
+            cellFirstTitle.setCellValue("LAPORAN DATA SENSOR KJABB-IMTA")
+            sheet.addMergedRegion(CellRangeAddress(1, 1, 0, 8))
+
+            val rowSecondTitle = sheet.createRow(2)
+            val cellSecondTitle = rowSecondTitle.createCell(0)
+            cellSecondTitle.setCellValue("PERIODE DATA: 1 DESEMBER 2021 - 31 DESEMBER 2021")
+            sheet.addMergedRegion(CellRangeAddress(2, 2, 0, 8))
+
+            cellFirstTitle.cellStyle = cellStyle
+            cellSecondTitle.cellStyle = cellStyle
+
         }
 
         private fun getHeaderStyle(workbook: Workbook): CellStyle {
@@ -123,7 +190,7 @@ abstract class ExcelUtils {
 
             // Apply cell color
             val colorMap: IndexedColorMap = (workbook as XSSFWorkbook).stylesSource.indexedColors
-            var color = XSSFColor(IndexedColors.ORANGE, colorMap).indexed
+            var color = XSSFColor(IndexedColors.LIGHT_BLUE, colorMap).indexed
             cellStyle.fillForegroundColor = color
             cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND)
 
@@ -133,6 +200,22 @@ abstract class ExcelUtils {
             whiteFont.color = color
             whiteFont.bold = true
             cellStyle.setFont(whiteFont)
+
+            cellStyle.setAlignment(HorizontalAlignment.CENTER)
+
+            return cellStyle
+        }
+
+        private fun getTitleStyle(workbook: Workbook): CellStyle {
+            // Cell Style for title
+            val cellStyle = workbook.createCellStyle()
+
+            // Apply font style on cell text
+            val font = workbook.createFont()
+            font.bold = true
+            font.fontHeightInPoints = 14
+            cellStyle.setFont(font)
+            cellStyle.setAlignment(HorizontalAlignment.CENTER)
 
             return cellStyle
         }
