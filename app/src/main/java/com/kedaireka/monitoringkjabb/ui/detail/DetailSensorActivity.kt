@@ -51,6 +51,7 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var thresholdStatus: TextView
 
     private lateinit var records: ArrayList<Sensor>
+    private lateinit var recordsInRange: ArrayList<Sensor>
 
     companion object {
         private const val STORAGE_PERMISSION_CODE = 101
@@ -145,23 +146,31 @@ class DetailSensorActivity : AppCompatActivity() {
                 )
                 .build()
 
-            dateRangePicker.addOnPositiveButtonClickListener {
+            dateRangePicker.addOnPositiveButtonClickListener { time ->
                 // Generate Data
                 Toast.makeText(this, "Saving Data", Toast.LENGTH_SHORT).show()
 
+                detailSensorViewModel.getSensorRecordInRange(data, time.first, time.second)
+                detailSensorViewModel.sensorRecordInRange.observe(this, {
+                    recordsInRange = it
 
+                    if (!recordsInRange.isEmpty()) {
+                        executor.execute {
+                            val workbook = ExcelUtils.createWorkbook(recordsInRange)
+                            ExcelUtils.createExcel(applicationContext, workbook, data)
 
-                executor.execute {
-                    val workbook = ExcelUtils.createWorkbook(records)
-                    ExcelUtils.createExcel(applicationContext, workbook, data)
-
-                    handler.post {
-                        Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                            handler.post {
+                                Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Saving Failed", Toast.LENGTH_SHORT).show()
                     }
-                }
-            }
-            dateRangePicker.show(supportFragmentManager, "DetailSensorActivity")
 
+                })
+            }
+
+            dateRangePicker.show(supportFragmentManager, "DetailSensorActivity")
         }
     }
 
