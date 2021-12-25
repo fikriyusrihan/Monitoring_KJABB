@@ -311,7 +311,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 val upperValue = edtUpperLimit.editText?.text.toString()
                 val lowerValue = edtLowerLimit.editText?.text.toString()
 
-                val isValid = upperValue != "" || lowerValue != ""
+                val isValid = upperValue != "" && lowerValue != ""
 
                 if (!isValid) {
                     Toast.makeText(

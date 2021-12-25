@@ -41,4 +41,6 @@
     <string name="upper_limit">Upper Limit</string>
     <string name="lower_limit">Lower Limit</string>
     <string name="save_as_xslx">Save as .xslx</string>
+    <string name="raindrops">Raindrops</string>
+    <string name="ammonia">Ammonia</string>
 </resources>

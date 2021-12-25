@@ -10,7 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.model.Sensor
 
-class DOFragmentViewModel : ViewModel() {
+class AmmoniaFragmentViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "DOFragmentViewModel"
