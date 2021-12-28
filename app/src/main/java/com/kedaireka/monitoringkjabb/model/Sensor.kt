@@ -10,7 +10,6 @@ data class Sensor(
     var name: String,
     var value: String,
     var unit: String,
-    var status: Int,
     var created_at: Timestamp,
     var urlIcon: String? = ""
 ) : Parcelable

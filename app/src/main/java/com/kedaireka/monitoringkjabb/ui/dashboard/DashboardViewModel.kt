@@ -5,10 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
-import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
+import java.util.*
 
 class DashboardViewModel : ViewModel() {
 
@@ -28,27 +27,54 @@ class DashboardViewModel : ViewModel() {
 
     private fun getSensorsData() {
         _isLoading.postValue(true)
-        val db = Firebase.firestore
-        db.collection("sensors")
-            .get()
-            .addOnSuccessListener { result ->
-                val sensorData = arrayListOf<Sensor>()
-                for (document in result) {
-                    val id = document.id
-                    val name = document["name"].toString()
-                    val value = document["value"].toString()
-                    val unit = document["unit"].toString()
-                    val status = document["status"].toString().toInt()
-                    val createdAt = document["created_at"] as Timestamp
-                    val urlIcon = document["url_icon"].toString()
 
-                    sensorData.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
+        val refRealtimeDatabase = DATABASE_REFERENCE
+        refRealtimeDatabase.child("sensors").get().addOnSuccessListener { result ->
+            val sensorData = arrayListOf<Sensor>()
+            for (sensor in result.children) {
+                val id = sensor.key!!
+                val name = sensor.child("data/name").value.toString()
+                val value =
+                    sensor.child("records").children.elementAt(0).child("value").value.toString()
+                val unit = sensor.child("data/unit").value.toString()
+                val createdAt =
+                    sensor.child("records").children.elementAt(0)
+                        .child("created_at").value.toString()
+                val urlIcon = sensor.child("data/url_icon").value.toString()
+
+                val createdAtTimestamp = Timestamp(Date(createdAt.toLong()))
+                sensorData.add(Sensor(id, name, value, unit, createdAtTimestamp, urlIcon))
+            }
+
+            _data.postValue(sensorData)
+            _isLoading.postValue(false)
+        }.addOnFailureListener {
+            it.printStackTrace()
+        }
+    }
+
+    private fun createDummyRecords() {
+        for (i in 0..10) {
+            val timeInMillis = Date().time
+            val db = DATABASE_REFERENCE
+            val data = mutableMapOf<String, Any>()
+            data["created_at"] = timeInMillis
+            data["value"] = 6.2 + (i / 10)
+
+            db.child("sensors/water_temperature/records/$timeInMillis").setValue(data)
+        }
+    }
+
+    private fun check() {
+        val dbRef = DATABASE_REFERENCE
+        dbRef.child("sensors/ammonia/records").orderByKey().limitToLast(10).get()
+            .addOnSuccessListener { result ->
+                for (document in result.children) {
+                    Log.d("DetailSensorViewModel", document.key.toString())
                 }
-                _data.postValue(sensorData)
-                _isLoading.postValue(false)
             }
             .addOnFailureListener {
-                Log.d(TAG, "Error getting documents: ", it)
+                it.printStackTrace()
             }
     }
 

@@ -19,8 +19,6 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
         var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         var tvValue: TextView = itemView.findViewById(R.id.tv_item_value)
         var imgIcon: ImageView = itemView.findViewById(R.id.iv_item_icon)
-        var llCard: LinearLayout = itemView.findViewById(R.id.card)
-        var llCard2: LinearLayout = itemView.findViewById(R.id.card_2)
     }
 
     override fun onCreateViewHolder(
@@ -33,7 +31,7 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (_, name, value, unit, status, _, urlIcon) = listSensor[position]
+        val (_, name, value, unit, _, urlIcon) = listSensor[position]
         val displayValue = "$value $unit"
 
         holder.tvName.text = name
@@ -46,8 +44,6 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
                 .into(holder.imgIcon)
         }
 
-        selectColorByStatus(holder, status)
-
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailSensorActivity::class.java)
             intent.putExtra("data", listSensor[position])
@@ -57,22 +53,5 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
 
     override fun getItemCount(): Int {
         return listSensor.size
-    }
-
-    private fun selectColorByStatus(holder: ListViewHolder, status: Int) {
-        when (status) {
-            0 -> {
-                holder.llCard.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.blue_primary))
-                holder.llCard2.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.blue_primary))
-            }
-            1 -> {
-                holder.llCard.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.yellow))
-                holder.llCard2.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.yellow))
-            }
-            else -> {
-                holder.llCard.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.red))
-                holder.llCard2.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.red))
-            }
-        }
     }
 }

@@ -94,11 +94,10 @@ class AmmoniaFragment : Fragment() {
         val name = "Dissolve Oxygen"
         val value = "6.3"
         val unit = "mg/l"
-        val status = 0
         val createdAt = Timestamp(Date())
         val iconUrl = "url"
 
-        sensor = Sensor(id, name, value, unit, status, createdAt, iconUrl)
+        sensor = Sensor(id, name, value, unit, createdAt, iconUrl)
         return sensor
     }
 
@@ -123,22 +122,6 @@ class AmmoniaFragment : Fragment() {
                     R.color.grey_light
                 )
             )
-        when (records[0].status) {
-            0 -> {
-                lineDataSet.color = ContextCompat.getColor(
-                    this.requireContext().applicationContext,
-                    R.color.blue_primary
-                )
-            }
-            1 -> {
-                lineDataSet.color =
-                    ContextCompat.getColor(this.requireContext().applicationContext, R.color.yellow)
-            }
-            else -> {
-                lineDataSet.color =
-                    ContextCompat.getColor(this.requireContext().applicationContext, R.color.red)
-            }
-        }
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM

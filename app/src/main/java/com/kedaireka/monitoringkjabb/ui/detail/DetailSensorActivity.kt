@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.*
 import android.provider.Settings
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -154,7 +155,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 detailSensorViewModel.sensorRecordInRange.observe(this, {
                     recordsInRange = it
 
-                    if (!recordsInRange.isEmpty()) {
+                    if (recordsInRange.isNotEmpty()) {
                         executor.execute {
                             val workbook = ExcelUtils.createWorkbook(recordsInRange)
                             ExcelUtils.createExcel(applicationContext, workbook, data)
@@ -204,48 +205,12 @@ class DetailSensorActivity : AppCompatActivity() {
         val displayValue = "${sensor.value} ${sensor.unit}"
         tvTitle.text = sensor.name
         tvValue.text = displayValue
-        parseStatus(sensor.status)
 
     }
 
     private fun setThresholdStatus(upper: String, lower: String, sensor: Sensor) {
         val text = "$lower - $upper ${sensor.unit}"
         thresholdStatus.text = text
-    }
-
-    private fun parseStatus(status: Int) {
-        when (status) {
-            0 -> {
-                val statusText = "Good"
-                tvStatus.text = statusText
-                banner.setBackgroundColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.blue_primary
-                    )
-                )
-            }
-            1 -> {
-                val statusText = "Moderate"
-                tvStatus.text = statusText
-                banner.setBackgroundColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.yellow
-                    )
-                )
-            }
-            else -> {
-                val statusText = "Bad"
-                tvStatus.text = statusText
-                banner.setBackgroundColor(
-                    ContextCompat.getColor(
-                        applicationContext,
-                        R.color.red
-                    )
-                )
-            }
-        }
     }
 
     private fun setDOLineChart(lineChart: LineChart, records: ArrayList<Sensor>) {
@@ -264,17 +229,7 @@ class DetailSensorActivity : AppCompatActivity() {
         val lineDataSet = LineDataSet(lineEntry, records[0].name)
         lineDataSet.circleColors =
             mutableListOf(ContextCompat.getColor(applicationContext, R.color.grey_light))
-        when (records[0].status) {
-            0 -> {
-                lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.blue_primary)
-            }
-            1 -> {
-                lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.yellow)
-            }
-            else -> {
-                lineDataSet.color = ContextCompat.getColor(applicationContext, R.color.red)
-            }
-        }
+
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
