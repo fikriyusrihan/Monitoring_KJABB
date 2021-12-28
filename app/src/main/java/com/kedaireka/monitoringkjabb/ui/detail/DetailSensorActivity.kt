@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.*
 import android.provider.Settings
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -27,12 +26,11 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
+import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
@@ -281,9 +279,8 @@ class DetailSensorActivity : AppCompatActivity() {
                         "lower" to lowerValue,
                     )
 
-                    Firebase.firestore.collection("sensors").document(data.id)
-                        .collection("thresholds").document("data")
-                        .set(threshold)
+                    val dbRef = DATABASE_REFERENCE
+                    dbRef.child("sensors/${data.id}/thresholds").setValue(threshold)
                         .addOnSuccessListener {
                             Toast.makeText(
                                 this@DetailSensorActivity,
@@ -298,6 +295,7 @@ class DetailSensorActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+
 
                     setThresholdStatus(upperValue, lowerValue, data)
                 }
