@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.kedaireka.monitoringkjabb.ui.statistics.parameter.DOFragment
+import com.kedaireka.monitoringkjabb.ui.statistics.parameter.AmmoniaFragment
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.PHFragment
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.SalinityFragment
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.WaterTemperatureFragment
@@ -20,11 +20,11 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> return DOFragment()
+            0 -> return AmmoniaFragment()
             1 -> return PHFragment()
-            2 -> return WaterTemperatureFragment()
+            2 -> return SalinityFragment()
         }
 
-        return SalinityFragment()
+        return WaterTemperatureFragment()
     }
 }

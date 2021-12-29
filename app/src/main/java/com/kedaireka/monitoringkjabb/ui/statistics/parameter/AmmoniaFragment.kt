@@ -19,43 +19,43 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.R
-import com.kedaireka.monitoringkjabb.databinding.FragmentDOBinding
+import com.kedaireka.monitoringkjabb.databinding.FragmentAmmoniaBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import java.util.*
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
 
-class DOFragment : Fragment() {
+class AmmoniaFragment : Fragment() {
 
-    private lateinit var doFragmentViewModel: DOFragmentViewModel
+    private lateinit var ammoniaFragmentViewModel: AmmoniaFragmentViewModel
     private lateinit var allRecords: ArrayList<Sensor>
 
-    private var _binding: FragmentDOBinding? = null
+    private var _binding: FragmentAmmoniaBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        doFragmentViewModel = ViewModelProvider(this)[DOFragmentViewModel::class.java]
+        ammoniaFragmentViewModel = ViewModelProvider(this)[AmmoniaFragmentViewModel::class.java]
 
-        _binding = FragmentDOBinding.inflate(inflater, container, false)
+        _binding = FragmentAmmoniaBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val sensor = getLatestSensor()
-        doFragmentViewModel.getDORecord(sensor)
-        doFragmentViewModel.getAllDORecord(sensor)
-        doFragmentViewModel.allRecord.observe(viewLifecycleOwner, { result ->
+        ammoniaFragmentViewModel.getDORecord(sensor)
+        ammoniaFragmentViewModel.getAllDORecord(sensor)
+        ammoniaFragmentViewModel.allRecord.observe(viewLifecycleOwner, { result ->
             allRecords = result
         })
 
-        doFragmentViewModel.records.observe(viewLifecycleOwner, { result ->
+        ammoniaFragmentViewModel.records.observe(viewLifecycleOwner, { result ->
             val lineChart = binding.lineChart
             setDOLineChart(lineChart, result)
         })
 
-        doFragmentViewModel.isLoading.observe(viewLifecycleOwner, {
+        ammoniaFragmentViewModel.isLoading.observe(viewLifecycleOwner, {
             if (it) {
                 binding.pbLoading.visibility = View.VISIBLE
                 binding.lineChart.visibility = View.INVISIBLE
@@ -88,17 +88,16 @@ class DOFragment : Fragment() {
     }
 
     private fun getLatestSensor(): Sensor {
-        var sensor: Sensor
+        val sensor: Sensor
 
         val id = "sensor_do"
         val name = "Dissolve Oxygen"
         val value = "6.3"
         val unit = "mg/l"
-        val status = 0
         val createdAt = Timestamp(Date())
         val iconUrl = "url"
 
-        sensor = Sensor(id, name, value, unit, status, createdAt, iconUrl)
+        sensor = Sensor(id, name, value, unit, createdAt, iconUrl)
         return sensor
     }
 
@@ -123,22 +122,6 @@ class DOFragment : Fragment() {
                     R.color.grey_light
                 )
             )
-        when (records[0].status) {
-            0 -> {
-                lineDataSet.color = ContextCompat.getColor(
-                    this.requireContext().applicationContext,
-                    R.color.blue_primary
-                )
-            }
-            1 -> {
-                lineDataSet.color =
-                    ContextCompat.getColor(this.requireContext().applicationContext, R.color.yellow)
-            }
-            else -> {
-                lineDataSet.color =
-                    ContextCompat.getColor(this.requireContext().applicationContext, R.color.red)
-            }
-        }
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM

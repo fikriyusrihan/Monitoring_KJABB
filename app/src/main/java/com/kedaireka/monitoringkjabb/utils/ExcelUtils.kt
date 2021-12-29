@@ -75,7 +75,7 @@ abstract class ExcelUtils {
             val cellTitleStyle = getTitleStyle(workbook)
 
             // Creating sheet title row
-            createSheetTitle(cellTitleStyle, sheet)
+            createSheetTitle(cellTitleStyle, sheet, data[0], data[data.size - 1])
 
             // Creating sheet header row
             createSheetSensorInformation(cellHeaderStyle, sheet, data[0])
@@ -167,7 +167,12 @@ abstract class ExcelUtils {
 
         }
 
-        private fun createSheetTitle(cellStyle: CellStyle, sheet: Sheet) {
+        private fun createSheetTitle(
+            cellStyle: CellStyle,
+            sheet: Sheet,
+            start: Sensor,
+            end: Sensor
+        ) {
             // Create sheet
             val rowFirstTitle = sheet.createRow(1)
             val cellFirstTitle = rowFirstTitle.createCell(0)
@@ -176,7 +181,11 @@ abstract class ExcelUtils {
 
             val rowSecondTitle = sheet.createRow(2)
             val cellSecondTitle = rowSecondTitle.createCell(0)
-            cellSecondTitle.setCellValue("PERIODE DATA: 1 DESEMBER 2021 - 31 DESEMBER 2021")
+
+            val dfStart = DateFormat.format("dd MMMM yyyy", start.created_at.toDate())
+            val dfEnd = DateFormat.format("dd MMMM yyyy", end.created_at.toDate())
+
+            cellSecondTitle.setCellValue("PERIODE DATA: ${dfStart.toString().uppercase()} - ${dfEnd.toString().uppercase()}")
             sheet.addMergedRegion(CellRangeAddress(2, 2, 0, 8))
 
             cellFirstTitle.cellStyle = cellStyle

@@ -10,7 +10,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.model.Sensor
 
-class DOFragmentViewModel : ViewModel() {
+class AmmoniaFragmentViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "DOFragmentViewModel"
@@ -38,10 +38,9 @@ class DOFragmentViewModel : ViewModel() {
                     val name = sensor.name
                     val value = document["value"].toString()
                     val unit = sensor.unit
-                    val status = document["status"].toString().toInt()
                     val createdAt = document["created_at"] as Timestamp
                     val urlIcon = sensor.urlIcon
-                    records.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
+                    records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
                 }
                 _isLoading.postValue(false)
                 _records.postValue(records)
@@ -63,10 +62,9 @@ class DOFragmentViewModel : ViewModel() {
                     val name = sensor.name
                     val value = document["value"].toString()
                     val unit = sensor.unit
-                    val status = document["status"].toString().toInt()
                     val createdAt = document["created_at"] as Timestamp
                     val urlIcon = sensor.urlIcon
-                    records.add(Sensor(id, name, value, unit, status, createdAt, urlIcon))
+                    records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
                 }
                 _allRecord.postValue(records)
             }
