@@ -42,6 +42,16 @@
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_statistics.xml" value="0.19610507246376813" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/layout/fragment_water_temperature.xml" value="0.16802536231884058" />
         <entry key="..\:/Code/Kedaireka/Monitoring_KJABB/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/drawable/bottom_navigation_item_selector.xml" value="0.20052083333333334" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/activity_detail_sensor.xml" value="0.184375" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/activity_main.xml" value="0.184375" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/dashboard_card.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/fragment_d_o.xml" value="0.184375" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/fragment_dashboard.xml" value="0.184375" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/fragment_p_h.xml" value="0.184375" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/fragment_salinity.xml" value="0.184375" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/fragment_settings.xml" value="0.22" />
+        <entry key="..\:/Users/aulia/Documents/GitHub/Monitoring_KJABB/app/src/main/res/layout/fragment_statistics.xml" value="0.184375" />
       </map>
     </option>
   </component>
