@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
@@ -28,9 +30,11 @@ class DetailSensorViewModel : ViewModel() {
     val thresholds = _thresholds
 
     fun getSensorRecordInRange(sensor: Sensor, start: Long, end: Long) {
-        val dbRef = DATABASE_REFERENCE
-        dbRef.child("sensors/${sensor.id}/records").orderByChild("created_at")
-            .startAt(start.toString())
+        val dbRef =
+            Firebase.database("https://monitoring-kjabb-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("sensors/${sensor.id}/records")
+
+        dbRef.orderByKey().startAfter(start.toString()).endBefore(end.toString())
             .get().addOnSuccessListener { result ->
                 val records = arrayListOf<Sensor>()
                 Log.d("DetailSensorViewModel", result.childrenCount.toString())

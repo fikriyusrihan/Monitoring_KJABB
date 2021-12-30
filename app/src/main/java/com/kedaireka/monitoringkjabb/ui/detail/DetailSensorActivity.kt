@@ -140,7 +140,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 .setSelection(
                     Pair(
                         MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                        MaterialDatePicker.todayInUtcMilliseconds()
+                        MaterialDatePicker.todayInUtcMilliseconds() + 86400000
                     )
                 )
                 .build()
