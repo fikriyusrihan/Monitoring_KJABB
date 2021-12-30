@@ -43,7 +43,6 @@ class DetailSensorActivity : AppCompatActivity() {
 
     private lateinit var tvTitle: TextView
     private lateinit var tvValue: TextView
-    private lateinit var tvStatus: TextView
     private lateinit var pbDetail: ProgressBar
     private lateinit var lineChart: LineChart
     private lateinit var banner: LinearLayout
@@ -67,7 +66,6 @@ class DetailSensorActivity : AppCompatActivity() {
 
         tvTitle = binding.tvTitle
         tvValue = binding.tvValue
-        tvStatus = binding.tvStatus
         banner = binding.banner
         pbDetail = binding.pbDetail
         lineChart = binding.lineChart

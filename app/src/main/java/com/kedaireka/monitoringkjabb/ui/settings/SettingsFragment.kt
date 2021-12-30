@@ -1,11 +1,13 @@
 package com.kedaireka.monitoringkjabb.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.kedaireka.monitoringkjabb.AboutKJABB
 import com.kedaireka.monitoringkjabb.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -26,8 +28,13 @@ class SettingsFragment : Fragment() {
             ViewModelProvider(this).get(SettingsViewModel::class.java)
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+
+        binding.aboutKjabb.setOnClickListener {
+            val intentAboutKJABB = Intent(this.requireContext(), AboutKJABB::class.java)
+            startActivity(intentAboutKJABB)
+        }
+
+        return binding.root
     }
 
     override fun onDestroyView() {
