@@ -8,7 +8,7 @@ import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
 
-class AmmoniaFragmentViewModel : ViewModel() {
+class WaterTemperatureFragmentViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "DOFragmentViewModel"
