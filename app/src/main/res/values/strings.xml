@@ -22,7 +22,6 @@
     <string name="do_title">DO</string>
     <string name="ph">PH</string>
     <string name="temperature">Temperature</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_description">Customize app settings</string>
     <string name="statistics_download_message">Get an overall data recap in the form of .xlsx (excel)</string>
@@ -52,4 +51,6 @@
     <string name="social_media">Media Sosial</string>
     <string name="feedback">Umpan Balik</string>
     <string name="version">Versi 1.0</string>
+    <string name="raindrops">Raindrops</string>
+    <string name="ammonia">Ammonia</string>
 </resources>

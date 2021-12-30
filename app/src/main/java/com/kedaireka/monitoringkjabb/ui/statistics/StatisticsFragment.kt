@@ -12,10 +12,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.kedaireka.monitoringkjabb.databinding.FragmentStatisticsBinding
 
 val parameterArray = arrayOf(
-    "Dissolved Oxygen",
+    "Ammonia",
     "Power of Hydrogen",
-    "Water Temperature",
-    "Salinity"
+    "Raindrops",
+    "Water Temperature"
 )
 
 class StatisticsFragment : Fragment() {
