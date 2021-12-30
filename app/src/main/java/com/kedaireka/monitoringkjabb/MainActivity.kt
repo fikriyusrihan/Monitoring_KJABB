@@ -1,11 +1,17 @@
 package com.kedaireka.monitoringkjabb
 
+import android.content.Context
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kedaireka.monitoringkjabb.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
