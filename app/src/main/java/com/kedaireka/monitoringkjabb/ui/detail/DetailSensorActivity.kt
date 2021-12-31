@@ -157,11 +157,11 @@ class DetailSensorActivity : AppCompatActivity() {
                             ExcelUtils.createExcel(applicationContext, workbook, data)
 
                             handler.post {
-                                Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, getString(R.string.data_saved), Toast.LENGTH_SHORT).show()
                             }
                         }
                     } else {
-                        Toast.makeText(this, "Saving Failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.saving_failed), Toast.LENGTH_SHORT).show()
                     }
 
                 })
@@ -180,9 +180,9 @@ class DetailSensorActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this@DetailSensorActivity, "Storage permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DetailSensorActivity, getString(R.string.storage_permission_granted), Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@DetailSensorActivity, "Storage permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DetailSensorActivity, getString(R.string.storage_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -192,7 +192,7 @@ class DetailSensorActivity : AppCompatActivity() {
             // Requesting permission
             ActivityCompat.requestPermissions(this@DetailSensorActivity, arrayOf(permission), requestCode)
         } else {
-            Toast.makeText(this@DetailSensorActivity, "Permission already granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@DetailSensorActivity, getString(R.string.permission_already_granted), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -254,7 +254,7 @@ class DetailSensorActivity : AppCompatActivity() {
             .setView(formView)
             .setTitle("Setting Threshold")
             .setNegativeButton("Cancel") { _, _ ->
-                Toast.makeText(this, "Data Not Change", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.data_not_change), Toast.LENGTH_SHORT).show()
             }
             .setPositiveButton(
                 "Set"
@@ -267,7 +267,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 if (!isValid) {
                     Toast.makeText(
                         this@DetailSensorActivity,
-                        "Data not valid",
+                        getString(R.string.data_not_valid),
                         Toast.LENGTH_SHORT
                     ).show()
                     dialog.dismiss()
@@ -282,14 +282,14 @@ class DetailSensorActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             Toast.makeText(
                                 this@DetailSensorActivity,
-                                "Data Saved",
+                                getString(R.string.data_saved),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                         .addOnFailureListener {
                             Toast.makeText(
                                 this@DetailSensorActivity,
-                                "Failed",
+                                getString(R.string.failed),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

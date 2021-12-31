@@ -106,14 +106,14 @@ class SettingsFragment : Fragment() {
                 sharedPref?.edit()?.putBoolean(THRESHOLD_WARNING_KEY, true)?.apply()
                 Toast.makeText(
                     this.requireContext(),
-                    "Threshold Warning Activated",
+                    getString(R.string.threshold_warning_activated),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
                 sharedPref?.edit()?.putBoolean(THRESHOLD_WARNING_KEY, false)?.apply()
                 Toast.makeText(
                     this.requireContext(),
-                    "Threshold Warning Deactivated",
+                    getString(R.string.threshold_warning_deactivated),
                     Toast.LENGTH_SHORT
                 ).show()
             }

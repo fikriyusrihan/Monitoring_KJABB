@@ -45,4 +45,16 @@
     <string name="version">Versi 1.0</string>
     <string name="raindrops">Curah Hujan</string>
     <string name="ammonia">Amonia</string>
+    <string name="data_saved">Data Tersimpan</string>
+    <string name="saving_failed">Penyimpanan Gagal</string>
+    <string name="storage_permission_granted">Izin penyimpanan diterima</string>
+    <string name="storage_permission_denied">Izin penyimpanan ditolak</string>
+    <string name="permission_already_granted">Izin telah diterima</string>
+    <string name="data_not_change">Data tidak berubah</string>
+    <string name="data_not_valid">Data tidak valid</string>
+    <string name="failed">Gagal</string>
+    <string name="threshold_warning_activated">Peringatan Threshold Aktif</string>
+    <string name="threshold_warning_deactivated">Peringatan Threshold Mati</string>
+    <string name="daily_notification_activated">Notifikasi Harian Aktif</string>
+    <string name="daily_notification_deactivated">Notifikasi Harian Mati</string>
 </resources>

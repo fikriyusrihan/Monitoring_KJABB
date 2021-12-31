@@ -40,10 +40,10 @@ class AlarmReceiver : BroadcastReceiver() {
             pendingIntent
         )
 
-        Toast.makeText(context, "Daily Notification Activated", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.daily_notification_activated), Toast.LENGTH_SHORT).show()
     }
 
-    private fun showAlarmNotification(context: Context, notifId: Int) {
+    private fun showAlarmNotification(context: Context, notificationId: Int) {
         val CHANNEL_ID = "Channel_1"
         val CHANNEL_NAME = "AlarmManager Channel"
 
@@ -80,7 +80,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
 
         val notification = mBuilder.build()
-        mNotificationManager.notify(notifId, notification)
+        mNotificationManager.notify(notificationId, notification)
     }
 
     fun cancelAlarm(context: Context) {
@@ -92,6 +92,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         alarmManager.cancel(pendingIntent)
 
-        Toast.makeText(context, "Daily Notification Deactivated", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,
+            context.getString(R.string.daily_notification_deactivated), Toast.LENGTH_SHORT).show()
     }
 }
