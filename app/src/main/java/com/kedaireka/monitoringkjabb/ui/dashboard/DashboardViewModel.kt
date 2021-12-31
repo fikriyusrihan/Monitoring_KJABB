@@ -8,6 +8,7 @@ import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
+import kotlin.random.Random
 
 class DashboardViewModel : ViewModel() {
 
@@ -54,12 +55,12 @@ class DashboardViewModel : ViewModel() {
     }
 
     private fun createDummyRecords() {
-        for (i in 0..10) {
-            val timeInMillis = Date().time
+        for (i in 0..100) {
+            val timeInMillis = Date().time + (3600000 * i)
             val db = DATABASE_REFERENCE
             val data = mutableMapOf<String, Any>()
             data["created_at"] = timeInMillis
-            data["value"] = 6.2 + (i / 10)
+            data["value"] = (Random.nextInt(22, 25))
 
             db.child("sensors/water_temperature/records/$timeInMillis").setValue(data)
         }

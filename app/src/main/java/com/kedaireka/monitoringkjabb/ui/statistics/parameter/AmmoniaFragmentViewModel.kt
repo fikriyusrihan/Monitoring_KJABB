@@ -1,14 +1,12 @@
 package com.kedaireka.monitoringkjabb.ui.statistics.parameter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
+import java.util.*
 
 class AmmoniaFragmentViewModel : ViewModel() {
 
@@ -27,49 +25,56 @@ class AmmoniaFragmentViewModel : ViewModel() {
 
     fun getDORecord(sensor: Sensor) {
         _isLoading.postValue(true)
-        val db = Firebase.firestore
-        db.collection("sensors").document(sensor.id).collection("records")
-            .orderBy("created_at", Query.Direction.DESCENDING).limit(10L)
-            .get()
+
+        val dbRef = DATABASE_REFERENCE
+        dbRef.child("sensors/${sensor.id}/records").orderByKey().limitToLast(10).get()
             .addOnSuccessListener { result ->
                 val records = arrayListOf<Sensor>()
-                for (document in result) {
+                for (document in result.children) {
                     val id = sensor.id
                     val name = sensor.name
-                    val value = document["value"].toString()
+                    val value = document.child("value").value.toString()
                     val unit = sensor.unit
-                    val createdAt = document["created_at"] as Timestamp
+                    val createdAt =
+                        Timestamp(Date(document.child("created_at").value.toString().toLong()))
                     val urlIcon = sensor.urlIcon
+
                     records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
                 }
+                records.reverse()
+
                 _isLoading.postValue(false)
                 _records.postValue(records)
             }
             .addOnFailureListener {
-                Log.d(TAG, "Error getting documents: ", it)
+                it.printStackTrace()
             }
     }
 
     fun getAllDORecord(sensor: Sensor) {
-        val db = Firebase.firestore
-        db.collection("sensors").document(sensor.id).collection("records")
-            .orderBy("created_at", Query.Direction.DESCENDING)
-            .get()
+
+        val dbRef = DATABASE_REFERENCE
+        dbRef.child("sensors/${sensor.id}/records").orderByKey().limitToLast(10).get()
             .addOnSuccessListener { result ->
                 val records = arrayListOf<Sensor>()
-                for (document in result) {
+                for (document in result.children) {
                     val id = sensor.id
                     val name = sensor.name
-                    val value = document["value"].toString()
+                    val value = document.child("value").value.toString()
                     val unit = sensor.unit
-                    val createdAt = document["created_at"] as Timestamp
+                    val createdAt =
+                        Timestamp(Date(document.child("created_at").value.toString().toLong()))
                     val urlIcon = sensor.urlIcon
+
                     records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
                 }
+                records.reverse()
+
+                _isLoading.postValue(false)
                 _allRecord.postValue(records)
             }
             .addOnFailureListener {
-                Log.d(TAG, "Error getting documents: ", it)
+                it.printStackTrace()
             }
     }
 }

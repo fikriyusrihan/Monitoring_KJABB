@@ -1,60 +1,140 @@
 package com.kedaireka.monitoringkjabb.ui.statistics.parameter
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.R
+import com.kedaireka.monitoringkjabb.databinding.FragmentRaindropsBinding
+import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.ExcelUtils
+import java.util.*
+import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class RaindropsFragment : Fragment() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SalinityFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SalinityFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var raindropsFragmentViewModel: RaindropsFragmentViewModel
+    private lateinit var allRecords: ArrayList<Sensor>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentRaindropsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_raindrops, container, false)
-    }
+    ): View {
+        raindropsFragmentViewModel = ViewModelProvider(this)[RaindropsFragmentViewModel::class.java]
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SalinityFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SalinityFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        _binding = FragmentRaindropsBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        val sensor = getLatestSensor()
+        raindropsFragmentViewModel.getDORecord(sensor)
+        raindropsFragmentViewModel.getAllDORecord(sensor)
+        raindropsFragmentViewModel.allRecord.observe(viewLifecycleOwner, { result ->
+            allRecords = result
+        })
+
+        raindropsFragmentViewModel.records.observe(viewLifecycleOwner, { result ->
+            val lineChart = binding.lineChart
+            setDOLineChart(lineChart, result)
+        })
+
+        raindropsFragmentViewModel.isLoading.observe(viewLifecycleOwner, {
+            if (it) {
+                binding.pbLoading.visibility = View.VISIBLE
+                binding.lineChart.visibility = View.INVISIBLE
+            } else {
+                binding.pbLoading.visibility = View.GONE
+                binding.lineChart.visibility = View.VISIBLE
+            }
+        })
+
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+        binding.button.setOnClickListener {
+            Toast.makeText(this.requireContext(), "Saving Data", Toast.LENGTH_SHORT).show()
+
+            executor.execute {
+                val workbook = ExcelUtils.createWorkbook(allRecords)
+                ExcelUtils.createExcel(
+                    this.requireContext().applicationContext,
+                    workbook,
+                    sensor
+                )
+
+                handler.post {
+                    Toast.makeText(this.requireContext(), "Data Saved", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        return root
+    }
+
+    private fun getLatestSensor(): Sensor {
+        val sensor: Sensor
+
+        val id = "raindrops"
+        val name = "Raindrops"
+        val value = "6.3"
+        val unit = "mg/l"
+        val createdAt = Timestamp(Date())
+        val iconUrl = "url"
+
+        sensor = Sensor(id, name, value, unit, createdAt, iconUrl)
+        return sensor
+    }
+
+    private fun setDOLineChart(lineChart: LineChart, records: ArrayList<Sensor>) {
+
+        val xValue = ArrayList<String>()
+        val lineEntry = ArrayList<Entry>()
+        val size = records.size
+
+        for (i in 0 until size) {
+            val df = DateFormat.format("ha", records[size - i - 1].created_at.toDate())
+
+            xValue.add(df.toString())
+            lineEntry.add(Entry(i.toFloat(), records[size - i - 1].value.toFloat()))
+        }
+
+        val lineDataSet = LineDataSet(lineEntry, records[0].name)
+        lineDataSet.circleColors =
+            mutableListOf(
+                ContextCompat.getColor(
+                    this.requireContext().applicationContext,
+                    R.color.grey_light
+                )
+            )
+
+        val xAxis = lineChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setLabelCount(xValue.size, true)
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return xValue[value.toInt()]
+            }
+        }
+
+        val data = LineData(lineDataSet)
+        lineChart.data = data
+        lineChart.setScaleEnabled(false)
+
     }
 }

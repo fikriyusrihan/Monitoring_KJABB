@@ -90,8 +90,8 @@ class AmmoniaFragment : Fragment() {
     private fun getLatestSensor(): Sensor {
         val sensor: Sensor
 
-        val id = "sensor_do"
-        val name = "Dissolve Oxygen"
+        val id = "ammonia"
+        val name = "Ammonia"
         val value = "6.3"
         val unit = "mg/l"
         val createdAt = Timestamp(Date())
