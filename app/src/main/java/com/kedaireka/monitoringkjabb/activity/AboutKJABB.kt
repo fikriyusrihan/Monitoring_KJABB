@@ -1,4 +1,4 @@
-package com.kedaireka.monitoringkjabb
+package com.kedaireka.monitoringkjabb.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

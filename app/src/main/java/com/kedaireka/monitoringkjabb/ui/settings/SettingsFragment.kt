@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +15,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.kedaireka.monitoringkjabb.AboutKJABB
+import com.kedaireka.monitoringkjabb.activity.AboutKJABB
 import com.kedaireka.monitoringkjabb.AlarmReceiver
 import com.kedaireka.monitoringkjabb.MainActivity
 import com.kedaireka.monitoringkjabb.R
@@ -26,6 +27,9 @@ class SettingsFragment : Fragment() {
         private const val NOTIFICATION_ID = 1
         private const val CHANNEL_ID = "Daily Notification"
         private const val CHANNEL_NAME = "Monitoring KJABB Daily Notification"
+
+        private const val DAILY_NOTIFICATION_KEY = "DailyNotification"
+        private const val THRESHOLD_WARNING_KEY = "ThresholdWarning"
     }
 
     private lateinit var settingsViewModel: SettingsViewModel
@@ -43,7 +47,6 @@ class SettingsFragment : Fragment() {
     ): View {
         settingsViewModel =
             ViewModelProvider(this).get(SettingsViewModel::class.java)
-
         alarmReceiver = AlarmReceiver()
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
@@ -60,47 +63,8 @@ class SettingsFragment : Fragment() {
         val sharedPref =
             activity?.getSharedPreferences("SettingFragmentSharedPreference", Context.MODE_PRIVATE)
 
-        val switchDailyNotificationStatus = sharedPref?.getBoolean("DailyNotification", false)
-        if (switchDailyNotificationStatus != null) {
-            binding.switchDailyNotification.isChecked = switchDailyNotificationStatus
-        } else {
-            binding.switchDailyNotification.isChecked = false
-        }
-
-        binding.switchDailyNotification.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                alarmReceiver.setRepeatingAlarm(this.requireContext())
-                sharedPref?.edit()?.putBoolean("DailyNotification", true)?.apply()
-            } else {
-                alarmReceiver.cancelAlarm(this.requireContext())
-                sharedPref?.edit()?.putBoolean("DailyNotification", false)?.apply()
-            }
-        }
-
-        val switchThresholdWarningStatus = sharedPref?.getBoolean("ThresholdWarning", false)
-        if (switchThresholdWarningStatus != null) {
-            binding.switchThresholdWarning.isChecked = switchThresholdWarningStatus
-        } else {
-            binding.switchThresholdWarning.isChecked = false
-        }
-
-        binding.switchThresholdWarning.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                sharedPref?.edit()?.putBoolean("ThresholdWarning", true)?.apply()
-                Toast.makeText(
-                    this.requireContext(),
-                    "Threshold Warning Activated",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                sharedPref?.edit()?.putBoolean("ThresholdWarning", false)?.apply()
-                Toast.makeText(
-                    this.requireContext(),
-                    "Threshold Warning Deactivated",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+        dailyNotificationSwitch(sharedPref)
+        thresholdWarningSwitch(sharedPref)
 
         return binding.root
     }
@@ -110,8 +74,54 @@ class SettingsFragment : Fragment() {
         _binding = null
     }
 
-    private fun sendNotification() {
+    private fun dailyNotificationSwitch(sharedPref: SharedPreferences?) {
+        val switchDailyNotificationStatus = sharedPref?.getBoolean(DAILY_NOTIFICATION_KEY, false)
+        if (switchDailyNotificationStatus != null) {
+            binding.switchDailyNotification.isChecked = switchDailyNotificationStatus
+        } else {
+            binding.switchDailyNotification.isChecked = false
+        }
 
+        binding.switchDailyNotification.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmReceiver.setRepeatingAlarm(this.requireContext())
+                sharedPref?.edit()?.putBoolean(DAILY_NOTIFICATION_KEY, true)?.apply()
+            } else {
+                alarmReceiver.cancelAlarm(this.requireContext())
+                sharedPref?.edit()?.putBoolean(DAILY_NOTIFICATION_KEY, false)?.apply()
+            }
+        }
+    }
+
+    private fun thresholdWarningSwitch(sharedPref: SharedPreferences?) {
+        val switchThresholdWarningStatus = sharedPref?.getBoolean(THRESHOLD_WARNING_KEY, false)
+        if (switchThresholdWarningStatus != null) {
+            binding.switchThresholdWarning.isChecked = switchThresholdWarningStatus
+        } else {
+            binding.switchThresholdWarning.isChecked = false
+        }
+
+        binding.switchThresholdWarning.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                sharedPref?.edit()?.putBoolean(THRESHOLD_WARNING_KEY, true)?.apply()
+                Toast.makeText(
+                    this.requireContext(),
+                    "Threshold Warning Activated",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                sharedPref?.edit()?.putBoolean(THRESHOLD_WARNING_KEY, false)?.apply()
+                Toast.makeText(
+                    this.requireContext(),
+                    "Threshold Warning Deactivated",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+
+    private fun sendNotification() {
         val intent = Intent(this.requireContext(), MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             this.requireContext(),

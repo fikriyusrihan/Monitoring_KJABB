@@ -119,20 +119,21 @@
 
     </LinearLayout>
 
+    <!--Tentang KJABB-->
+
     <TextView
         android:id="@+id/others"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:text="@string/others"
-        android:textColor="@color/blue_primary"
         android:textAllCaps="true"
+        android:textColor="@color/blue_primary"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/threshold_warning" />
 
-    <!--Tentang KJABB-->
     <LinearLayout
         android:id="@+id/about_kjabb"
         android:layout_width="match_parent"
