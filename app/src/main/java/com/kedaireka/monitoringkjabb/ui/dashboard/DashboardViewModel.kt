@@ -30,6 +30,7 @@ class DashboardViewModel : ViewModel() {
         _isLoading.postValue(true)
 
         val refRealtimeDatabase = DATABASE_REFERENCE
+        refRealtimeDatabase.keepSynced(true)
         refRealtimeDatabase.child("sensors").get().addOnSuccessListener { result ->
             val sensorData = arrayListOf<Sensor>()
             for (sensor in result.children) {
