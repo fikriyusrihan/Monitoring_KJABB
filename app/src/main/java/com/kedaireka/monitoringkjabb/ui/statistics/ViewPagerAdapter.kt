@@ -10,7 +10,7 @@ import com.kedaireka.monitoringkjabb.ui.statistics.parameter.RaindropsFragment
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.WaterTemperatureFragment
 
 
-private const val NUM_TABS = 4
+private const val NUM_TABS = 3
 
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
@@ -21,8 +21,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return AmmoniaFragment()
-            1 -> return PHFragment()
-            2 -> return RaindropsFragment()
+            1 -> return RaindropsFragment()
         }
 
         return WaterTemperatureFragment()
