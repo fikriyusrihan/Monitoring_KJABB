@@ -1,4 +1,4 @@
-package com.kedaireka.monitoringkjabb
+package com.kedaireka.monitoringkjabb.utils
 
 import android.app.Application
 import com.google.firebase.database.ktx.database

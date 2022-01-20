@@ -1,4 +1,4 @@
-package com.kedaireka.monitoringkjabb
+package com.kedaireka.monitoringkjabb.utils
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -10,6 +10,8 @@ import android.content.Intent
 import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import com.kedaireka.monitoringkjabb.activity.MainActivity
+import com.kedaireka.monitoringkjabb.R
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -45,7 +47,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun showAlarmNotification(context: Context, notificationId: Int) {
         val CHANNEL_ID = "Channel_1"
-        val CHANNEL_NAME = "AlarmManager Channel"
+        val CHANNEL_NAME = "Daily Notification"
 
         val intent = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
