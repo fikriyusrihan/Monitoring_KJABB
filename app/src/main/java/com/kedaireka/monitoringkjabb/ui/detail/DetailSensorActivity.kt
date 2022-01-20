@@ -49,6 +49,8 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var banner: LinearLayout
     private lateinit var thresholdStatus: TextView
 
+    private lateinit var card: LinearLayout
+
     private lateinit var records: ArrayList<Sensor>
     private lateinit var recordsInRange: ArrayList<Sensor>
 
@@ -72,9 +74,14 @@ class DetailSensorActivity : AppCompatActivity() {
         pbDetail = binding.pbDetail
         lineChart = binding.lineChart
         thresholdStatus = binding.tvThresholdsStatus
+        card = binding.banner
 
         val data: Sensor = intent.extras?.get("data") as Sensor
+        val upper = intent.extras?.get("upper") as Double
+        val lower = intent.extras?.get("lower") as Double
+
         setData(data)
+        setBannerColor(upper, lower, data)
 
         detailSensorViewModel.getSensorRecords(data)
         detailSensorViewModel.getThresholdsData(data)
@@ -208,6 +215,12 @@ class DetailSensorActivity : AppCompatActivity() {
         val lastUpdate = "${getString(R.string.last_update_dummy)} $df"
         tvLastUpdate.text = lastUpdate
 
+    }
+
+    private fun setBannerColor(upper: Double, lower: Double, sensor: Sensor) {
+        if (sensor.value.toDouble() !in lower..upper) {
+            card.setBackgroundColor(resources.getColor(R.color.yellow))
+        }
     }
 
     private fun setThresholdStatus(upper: String, lower: String, sensor: Sensor) {
