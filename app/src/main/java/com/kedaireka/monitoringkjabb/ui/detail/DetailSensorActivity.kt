@@ -43,6 +43,7 @@ class DetailSensorActivity : AppCompatActivity() {
 
     private lateinit var tvTitle: TextView
     private lateinit var tvValue: TextView
+    private lateinit var tvLastUpdate: TextView
     private lateinit var pbDetail: ProgressBar
     private lateinit var lineChart: LineChart
     private lateinit var banner: LinearLayout
@@ -66,6 +67,7 @@ class DetailSensorActivity : AppCompatActivity() {
 
         tvTitle = binding.tvTitle
         tvValue = binding.tvValue
+        tvLastUpdate = binding.tvLastUpdate
         banner = binding.banner
         pbDetail = binding.pbDetail
         lineChart = binding.lineChart
@@ -201,6 +203,10 @@ class DetailSensorActivity : AppCompatActivity() {
         val displayValue = "${sensor.value} ${sensor.unit}"
         tvTitle.text = sensor.name
         tvValue.text = displayValue
+
+        val df = DateFormat.format("hh:mm a", sensor.created_at.toDate())
+        val lastUpdate = "${getString(R.string.last_update_dummy)} $df"
+        tvLastUpdate.text = lastUpdate
 
     }
 

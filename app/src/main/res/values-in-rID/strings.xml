@@ -13,7 +13,7 @@
     <string name="water_temperature">Suhu Air</string>
     <string name="power_of_hydrogen">Derajat Keasaman</string>
     <string name="salinity">Salinitas</string>
-    <string name="last_update_dummy">Terakhir Diperbarui: 08.00</string>
+    <string name="last_update_dummy">Terakhir Diperbarui:</string>
     <string name="title_statistics">Statistik</string>
     <string name="statistic_description">Rangkuman data dalam periode waktu tertentu</string>
     <string name="temperature">Suhu</string>
