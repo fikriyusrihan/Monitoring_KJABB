@@ -30,20 +30,21 @@ class DashboardViewModel : ViewModel() {
         _isLoading.postValue(true)
 
         val refRealtimeDatabase = DATABASE_REFERENCE
+        refRealtimeDatabase.keepSynced(true)
         refRealtimeDatabase.child("sensors").get().addOnSuccessListener { result ->
             val sensorData = arrayListOf<Sensor>()
             for (sensor in result.children) {
                 val id = sensor.key!!
                 val name = sensor.child("data/name").value.toString()
                 val value =
-                    sensor.child("records").children.elementAt(0).child("value").value.toString()
+                    sensor.child("records").children.last().child("value").value.toString()
                 val unit = sensor.child("data/unit").value.toString()
                 val createdAt =
-                    sensor.child("records").children.elementAt(0)
+                    sensor.child("records").children.last()
                         .child("created_at").value.toString()
                 val urlIcon = sensor.child("data/url_icon").value.toString()
 
-                val createdAtTimestamp = Timestamp(Date(createdAt.toLong()))
+                val createdAtTimestamp = Timestamp(Date(createdAt.toLong() * 1000))
                 sensorData.add(Sensor(id, name, value, unit, createdAtTimestamp, urlIcon))
             }
 

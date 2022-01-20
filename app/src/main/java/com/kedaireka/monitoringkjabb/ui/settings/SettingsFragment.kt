@@ -16,8 +16,8 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kedaireka.monitoringkjabb.activity.AboutKJABB
-import com.kedaireka.monitoringkjabb.AlarmReceiver
-import com.kedaireka.monitoringkjabb.MainActivity
+import com.kedaireka.monitoringkjabb.utils.AlarmReceiver
+import com.kedaireka.monitoringkjabb.activity.MainActivity
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.FragmentSettingsBinding
 
