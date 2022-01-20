@@ -13,7 +13,6 @@ import com.kedaireka.monitoringkjabb.databinding.FragmentStatisticsBinding
 
 val parameterArray = arrayOf(
     "Ammonia",
-    "Power of Hydrogen",
     "Raindrops",
     "Water Temperature"
 )
@@ -33,7 +32,7 @@ class StatisticsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         statisticsViewModel =
-            ViewModelProvider(this).get(StatisticsViewModel::class.java)
+            ViewModelProvider(this)[StatisticsViewModel::class.java]
 
         _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
         val root: View = binding.root

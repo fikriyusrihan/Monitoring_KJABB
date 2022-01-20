@@ -97,11 +97,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/proxima_nova_bold"
                 android:text="@string/do_dummy"
                 android:textColor="@color/white"
                 android:textSize="52sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_last_update"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:text="@string/last_update_dummy"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
