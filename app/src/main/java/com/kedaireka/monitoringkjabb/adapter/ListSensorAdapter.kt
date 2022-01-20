@@ -46,7 +46,7 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailSensorActivity::class.java)
-            intent.putExtra("data",     listSensor[position])
+            intent.putExtra("data", listSensor[position])
             holder.itemView.context.startActivity(intent)
         }
     }

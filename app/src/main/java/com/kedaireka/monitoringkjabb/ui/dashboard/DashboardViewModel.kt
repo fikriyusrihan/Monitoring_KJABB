@@ -8,6 +8,7 @@ import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 class DashboardViewModel : ViewModel() {
@@ -21,6 +22,8 @@ class DashboardViewModel : ViewModel() {
 
     private val _data = MutableLiveData<ArrayList<Sensor>>()
     val data : LiveData<ArrayList<Sensor>> = _data
+
+    private val _thresholdData = MutableLiveData<ArrayList<Map<String, Double>>>()
 
     init {
         getSensorsData()

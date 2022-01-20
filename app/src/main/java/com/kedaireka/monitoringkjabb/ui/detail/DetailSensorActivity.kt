@@ -268,7 +268,18 @@ class DetailSensorActivity : AppCompatActivity() {
                 val upperValue = edtUpperLimit.editText?.text.toString()
                 val lowerValue = edtLowerLimit.editText?.text.toString()
 
-                val isValid = upperValue != "" && lowerValue != ""
+                var upperValueInDouble: Double? = null
+                var lowerValueInDouble: Double? = null
+
+                var isValid = upperValue != "" && lowerValue != ""
+
+                try {
+                    upperValueInDouble = upperValue.toDouble()
+                    lowerValueInDouble = lowerValue.toDouble()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    isValid = false
+                }
 
                 if (!isValid) {
                     Toast.makeText(
@@ -279,8 +290,8 @@ class DetailSensorActivity : AppCompatActivity() {
                     dialog.dismiss()
                 } else {
                     val threshold = hashMapOf(
-                        "upper" to upperValue,
-                        "lower" to lowerValue,
+                        "upper" to upperValueInDouble,
+                        "lower" to lowerValueInDouble,
                     )
 
                     val dbRef = DATABASE_REFERENCE
