@@ -44,7 +44,7 @@ class DashboardViewModel : ViewModel() {
                         .child("created_at").value.toString()
                 val urlIcon = sensor.child("data/url_icon").value.toString()
 
-                val createdAtTimestamp = Timestamp(Date(createdAt.toLong()))
+                val createdAtTimestamp = Timestamp(Date(createdAt.toLong() * 1000))
                 sensorData.add(Sensor(id, name, value, unit, createdAtTimestamp, urlIcon))
             }
 

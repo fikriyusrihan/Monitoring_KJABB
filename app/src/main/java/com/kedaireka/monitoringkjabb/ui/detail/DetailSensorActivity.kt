@@ -147,7 +147,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 // Generate Data
                 Toast.makeText(this, "Saving Data", Toast.LENGTH_SHORT).show()
 
-                detailSensorViewModel.getSensorRecordInRange(data, time.first, time.second)
+                detailSensorViewModel.getSensorRecordInRange(data, time.first / 1000, time.second / 1000)
                 detailSensorViewModel.sensorRecordInRange.observe(this, {
                     recordsInRange = it
 
