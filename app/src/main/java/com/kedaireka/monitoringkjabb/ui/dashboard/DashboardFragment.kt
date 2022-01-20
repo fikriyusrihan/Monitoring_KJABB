@@ -23,6 +23,7 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var list = ArrayList<Sensor>()
+    private var thresholdList = ArrayList<Map<String, Double>>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,11 +45,14 @@ class DashboardFragment : Fragment() {
             showLoading(it)
         })
 
+        dashboardViewModel.thresholdData.observe(viewLifecycleOwner, {
+            thresholdList = it
+        })
+
         dashboardViewModel.data.observe(viewLifecycleOwner, {
             list = it
             showRecyclerView()
         })
-
 
         return root
     }
@@ -60,7 +64,7 @@ class DashboardFragment : Fragment() {
 
     private fun showRecyclerView() {
         rvSensor.layoutManager = LinearLayoutManager(this.context)
-        val listSensorAdapter = ListSensorAdapter(list)
+        val listSensorAdapter = ListSensorAdapter(list, thresholdList)
         rvSensor.adapter = listSensorAdapter
     }
 

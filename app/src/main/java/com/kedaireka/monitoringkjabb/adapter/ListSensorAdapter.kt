@@ -13,9 +13,13 @@ import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.ui.detail.DetailSensorActivity
 
-class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
+class ListSensorAdapter(
+    private val listSensor: ArrayList<Sensor>,
+    private val listThreshold: ArrayList<Map<String, Double>>
+) :
     RecyclerView.Adapter<ListSensorAdapter.ListViewHolder>() {
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var card: LinearLayout = itemView.findViewById(R.id.card)
         var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         var tvValue: TextView = itemView.findViewById(R.id.tv_item_value)
         var imgIcon: ImageView = itemView.findViewById(R.id.iv_item_icon)
@@ -32,6 +36,10 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (_, name, value, unit, _, urlIcon) = listSensor[position]
+        val threshold: Map<String, Double> = listThreshold[position]
+
+        val upper = threshold["upper"]
+        val lower = threshold["lower"]
         val displayValue = "$value $unit"
 
         holder.tvName.text = name
@@ -46,8 +54,14 @@ class ListSensorAdapter(private val listSensor: ArrayList<Sensor>) :
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailSensorActivity::class.java)
-            intent.putExtra("data",     listSensor[position])
+            intent.putExtra("data", listSensor[position])
+            intent.putExtra("upper", upper)
+            intent.putExtra("lower", lower)
             holder.itemView.context.startActivity(intent)
+        }
+
+        if (!(value.toDouble() <= upper!! && value.toDouble() >= lower!!)) {
+            holder.card.setBackgroundColor(holder.itemView.resources.getColor(R.color.yellow))
         }
     }
 

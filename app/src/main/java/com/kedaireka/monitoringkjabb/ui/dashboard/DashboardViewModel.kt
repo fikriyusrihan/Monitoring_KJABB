@@ -22,6 +22,9 @@ class DashboardViewModel : ViewModel() {
     private val _data = MutableLiveData<ArrayList<Sensor>>()
     val data : LiveData<ArrayList<Sensor>> = _data
 
+    private val _thresholdData = MutableLiveData<ArrayList<Map<String, Double>>>()
+    val thresholdData = _thresholdData
+
     init {
         getSensorsData()
     }
@@ -33,6 +36,7 @@ class DashboardViewModel : ViewModel() {
         refRealtimeDatabase.keepSynced(true)
         refRealtimeDatabase.child("sensors").get().addOnSuccessListener { result ->
             val sensorData = arrayListOf<Sensor>()
+            val thresholdData = arrayListOf<Map<String, Double>>()
             for (sensor in result.children) {
                 val id = sensor.key!!
                 val name = sensor.child("data/name").value.toString()
@@ -46,8 +50,14 @@ class DashboardViewModel : ViewModel() {
 
                 val createdAtTimestamp = Timestamp(Date(createdAt.toLong() * 1000))
                 sensorData.add(Sensor(id, name, value, unit, createdAtTimestamp, urlIcon))
+
+                val upper = sensor.child("thresholds/upper").value.toString().toDouble()
+                val lower = sensor.child("thresholds/lower").value.toString().toDouble()
+
+                thresholdData.add(hashMapOf("upper" to upper, "lower" to lower))
             }
 
+            _thresholdData.postValue(thresholdData)
             _data.postValue(sensorData)
             _isLoading.postValue(false)
         }.addOnFailureListener {

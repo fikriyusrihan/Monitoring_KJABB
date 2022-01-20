@@ -49,6 +49,8 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var banner: LinearLayout
     private lateinit var thresholdStatus: TextView
 
+    private lateinit var card: LinearLayout
+
     private lateinit var records: ArrayList<Sensor>
     private lateinit var recordsInRange: ArrayList<Sensor>
 
@@ -72,9 +74,14 @@ class DetailSensorActivity : AppCompatActivity() {
         pbDetail = binding.pbDetail
         lineChart = binding.lineChart
         thresholdStatus = binding.tvThresholdsStatus
+        card = binding.banner
 
         val data: Sensor = intent.extras?.get("data") as Sensor
+        val upper = intent.extras?.get("upper") as Double
+        val lower = intent.extras?.get("lower") as Double
+
         setData(data)
+        setBannerColor(upper, lower, data)
 
         detailSensorViewModel.getSensorRecords(data)
         detailSensorViewModel.getThresholdsData(data)
@@ -210,6 +217,12 @@ class DetailSensorActivity : AppCompatActivity() {
 
     }
 
+    private fun setBannerColor(upper: Double, lower: Double, sensor: Sensor) {
+        if (sensor.value.toDouble() !in lower..upper) {
+            card.setBackgroundColor(resources.getColor(R.color.yellow))
+        }
+    }
+
     private fun setThresholdStatus(upper: String, lower: String, sensor: Sensor) {
         val text = "$lower - $upper ${sensor.unit}"
         thresholdStatus.text = text
@@ -268,7 +281,18 @@ class DetailSensorActivity : AppCompatActivity() {
                 val upperValue = edtUpperLimit.editText?.text.toString()
                 val lowerValue = edtLowerLimit.editText?.text.toString()
 
-                val isValid = upperValue != "" && lowerValue != ""
+                var upperValueInDouble: Double? = null
+                var lowerValueInDouble: Double? = null
+
+                var isValid = upperValue != "" && lowerValue != ""
+
+                try {
+                    upperValueInDouble = upperValue.toDouble()
+                    lowerValueInDouble = lowerValue.toDouble()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    isValid = false
+                }
 
                 if (!isValid) {
                     Toast.makeText(
@@ -279,8 +303,8 @@ class DetailSensorActivity : AppCompatActivity() {
                     dialog.dismiss()
                 } else {
                     val threshold = hashMapOf(
-                        "upper" to upperValue,
-                        "lower" to lowerValue,
+                        "upper" to upperValueInDouble,
+                        "lower" to lowerValueInDouble,
                     )
 
                     val dbRef = DATABASE_REFERENCE
