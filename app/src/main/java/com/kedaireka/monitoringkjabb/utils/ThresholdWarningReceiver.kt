@@ -68,7 +68,10 @@ class ThresholdWarningReceiver : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
             .setContentTitle("Peringatan Threshold")
             .setContentText("Sensor mendeteksi nilai di luar batas aman")
-            .setStyle(NotificationCompat.BigTextStyle().bigText("${sensor.name} berada diluar batas aman dengan nilai saat ini ${sensor.value}"))
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("${sensor.name} berada diluar batas aman dengan nilai saat ini ${sensor.value} ${sensor.unit}")
+            )
             .setAutoCancel(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
