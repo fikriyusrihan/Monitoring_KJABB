@@ -29,6 +29,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver
+            android:name=".utils.ThresholdWarningReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".activity.AboutKJABB"
             android:exported="false" />

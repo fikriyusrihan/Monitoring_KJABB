@@ -11,15 +11,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.kedaireka.monitoringkjabb.activity.AboutKJABB
-import com.kedaireka.monitoringkjabb.utils.AlarmReceiver
-import com.kedaireka.monitoringkjabb.activity.MainActivity
 import com.kedaireka.monitoringkjabb.R
+import com.kedaireka.monitoringkjabb.activity.AboutKJABB
+import com.kedaireka.monitoringkjabb.activity.MainActivity
 import com.kedaireka.monitoringkjabb.databinding.FragmentSettingsBinding
+import com.kedaireka.monitoringkjabb.utils.AlarmReceiver
+import com.kedaireka.monitoringkjabb.utils.ThresholdWarningReceiver
 
 class SettingsFragment : Fragment() {
 
@@ -34,6 +34,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var settingsViewModel: SettingsViewModel
     private lateinit var alarmReceiver: AlarmReceiver
+    private lateinit var thresholdWarningReceiver: ThresholdWarningReceiver
     private var _binding: FragmentSettingsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -48,6 +49,7 @@ class SettingsFragment : Fragment() {
         settingsViewModel =
             ViewModelProvider(this).get(SettingsViewModel::class.java)
         alarmReceiver = AlarmReceiver()
+        thresholdWarningReceiver = ThresholdWarningReceiver()
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
@@ -104,18 +106,10 @@ class SettingsFragment : Fragment() {
         binding.switchThresholdWarning.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 sharedPref?.edit()?.putBoolean(THRESHOLD_WARNING_KEY, true)?.apply()
-                Toast.makeText(
-                    this.requireContext(),
-                    getString(R.string.threshold_warning_activated),
-                    Toast.LENGTH_SHORT
-                ).show()
+                thresholdWarningReceiver.setRepeatingThresholdAlarm(this.requireContext())
             } else {
                 sharedPref?.edit()?.putBoolean(THRESHOLD_WARNING_KEY, false)?.apply()
-                Toast.makeText(
-                    this.requireContext(),
-                    getString(R.string.threshold_warning_deactivated),
-                    Toast.LENGTH_SHORT
-                ).show()
+                thresholdWarningReceiver.cancelThresholdAlarm(this.requireContext())
             }
         }
     }
