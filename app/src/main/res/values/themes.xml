@@ -27,7 +27,7 @@
 
     <style name="TextMainTitle">
         <item name="fontFamily">@font/proxima_nova_bold</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

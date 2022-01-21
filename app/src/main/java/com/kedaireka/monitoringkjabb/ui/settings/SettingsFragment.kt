@@ -58,10 +58,6 @@ class SettingsFragment : Fragment() {
             startActivity(intentAboutKJABB)
         }
 
-        binding.thresholdWarning.setOnClickListener {
-            sendNotification()
-        }
-
         val sharedPref =
             activity?.getSharedPreferences("SettingFragmentSharedPreference", Context.MODE_PRIVATE)
 
