@@ -36,7 +36,7 @@ class AmmoniaFragmentViewModel : ViewModel() {
                     val value = document.child("value").value.toString()
                     val unit = sensor.unit
                     val createdAt =
-                        Timestamp(Date(document.child("created_at").value.toString().toLong()))
+                        Timestamp(Date(document.child("created_at").value.toString().toLong() * 1000))
                     val urlIcon = sensor.urlIcon
 
                     records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
@@ -63,7 +63,7 @@ class AmmoniaFragmentViewModel : ViewModel() {
                     val value = document.child("value").value.toString()
                     val unit = sensor.unit
                     val createdAt =
-                        Timestamp(Date(document.child("created_at").value.toString().toLong()))
+                        Timestamp(Date(document.child("created_at").value.toString().toLong() * 1000))
                     val urlIcon = sensor.urlIcon
 
                     records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
