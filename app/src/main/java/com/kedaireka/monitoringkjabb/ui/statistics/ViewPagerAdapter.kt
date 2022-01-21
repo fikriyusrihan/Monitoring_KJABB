@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.AmmoniaFragment
-import com.kedaireka.monitoringkjabb.ui.statistics.parameter.PHFragment
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.RaindropsFragment
 import com.kedaireka.monitoringkjabb.ui.statistics.parameter.WaterTemperatureFragment
 
