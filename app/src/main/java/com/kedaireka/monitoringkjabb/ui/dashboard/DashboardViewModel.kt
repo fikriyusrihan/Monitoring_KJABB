@@ -12,10 +12,6 @@ import kotlin.random.Random
 
 class DashboardViewModel : ViewModel() {
 
-    companion object {
-        private const val TAG = "DashboardViewModel"
-    }
-
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -72,9 +68,10 @@ class DashboardViewModel : ViewModel() {
             val db = DATABASE_REFERENCE
             val data = mutableMapOf<String, Any>()
             data["created_at"] = timeInMillis / 1000
-            data["value"] = (Random.nextInt(22, 25))
+//            data["value"] = (Random.nextDouble(18.0, 25.0) * 100).roundToInt() / 100.0
+            data["value"] = Random.nextInt(0, 4)
 
-            db.child("sensors/water_temperature/records/${timeInMillis / 1000}").setValue(data)
+            db.child("sensors/raindrops/records/${timeInMillis / 1000}").setValue(data)
         }
     }
 

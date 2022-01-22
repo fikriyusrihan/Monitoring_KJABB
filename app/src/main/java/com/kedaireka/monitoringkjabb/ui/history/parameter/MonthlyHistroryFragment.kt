@@ -42,8 +42,13 @@ class MonthlyHistroryFragment : Fragment() {
         monthlyHistoryViewModel.getSensorHistory(sensor)
 
         monthlyHistoryViewModel.avg.observe(viewLifecycleOwner, {
-            val value = "%.2f ${sensor.unit}".format(it)
-            binding.tvValue.text = value
+            if (sensor.id == "raindrops") {
+                val value = "${it.toInt()} ${sensor.unit}"
+                binding.tvValue.text = value
+            } else {
+                val value = "%.2f ${sensor.unit}".format(it)
+                binding.tvValue.text = value
+            }
         })
 
         monthlyHistoryViewModel.max.observe(viewLifecycleOwner, {

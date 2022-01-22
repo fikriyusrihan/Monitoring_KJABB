@@ -54,4 +54,6 @@
     <string name="today">Hari Ini</string>
     <string name="_7_days">7 Hari</string>
     <string name="_31_days">31 Hari</string>
+    <string name="weekly_average">Rata-Rata Mingguan</string>
+    <string name="monthly_average">Rata-Rata Bulanan</string>
 </resources>

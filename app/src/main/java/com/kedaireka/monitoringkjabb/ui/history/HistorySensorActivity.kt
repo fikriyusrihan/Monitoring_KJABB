@@ -7,9 +7,9 @@ import com.kedaireka.monitoringkjabb.databinding.ActivityHistorySensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
 
 private val parameterArray = arrayOf(
-    "Today",
-    "7 Days",
-    "31 Days"
+    "Daily",
+    "Weekly",
+    "Monthly"
 )
 
 class HistorySensorActivity : AppCompatActivity() {

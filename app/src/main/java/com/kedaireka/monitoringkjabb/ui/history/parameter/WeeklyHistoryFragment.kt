@@ -43,8 +43,13 @@ class WeeklyHistoryFragment : Fragment() {
         weeklyHistoryViewModel.getSensorHistory(sensor)
 
         weeklyHistoryViewModel.avg.observe(viewLifecycleOwner, {
-            val value = "%.2f ${sensor.unit}".format(it)
-            binding.tvValue.text = value
+            if (sensor.id == "raindrops") {
+                val value = "${it.toInt()} ${sensor.unit}"
+                binding.tvValue.text = value
+            } else {
+                val value = "%.2f ${sensor.unit}".format(it)
+                binding.tvValue.text = value
+            }
         })
 
         weeklyHistoryViewModel.max.observe(viewLifecycleOwner, {
