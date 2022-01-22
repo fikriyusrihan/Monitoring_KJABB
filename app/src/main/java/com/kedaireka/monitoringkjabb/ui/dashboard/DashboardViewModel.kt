@@ -26,6 +26,7 @@ class DashboardViewModel : ViewModel() {
     val thresholdData = _thresholdData
 
     init {
+//      createDummyRecords()
         getSensorsData()
     }
 
@@ -67,13 +68,13 @@ class DashboardViewModel : ViewModel() {
 
     private fun createDummyRecords() {
         for (i in 0..100) {
-            val timeInMillis = Date().time + (3600000 * i)
+            val timeInMillis = Date().time + (1800000 * i)
             val db = DATABASE_REFERENCE
             val data = mutableMapOf<String, Any>()
-            data["created_at"] = timeInMillis
+            data["created_at"] = timeInMillis / 1000
             data["value"] = (Random.nextInt(22, 25))
 
-            db.child("sensors/water_temperature/records/$timeInMillis").setValue(data)
+            db.child("sensors/water_temperature/records/${timeInMillis / 1000}").setValue(data)
         }
     }
 

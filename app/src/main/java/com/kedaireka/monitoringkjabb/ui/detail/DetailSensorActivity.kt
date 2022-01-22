@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.ui.history.HistorySensorActivity
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
@@ -116,6 +117,13 @@ class DetailSensorActivity : AppCompatActivity() {
         val btnSetThreshold = binding.cvThresholdSetting
         btnSetThreshold.setOnClickListener {
             showSetThresholdDialog(data)
+        }
+
+        val btnHistory = binding.cvHistorySensor
+        btnHistory.setOnClickListener {
+            val intentHistory = Intent(this, HistorySensorActivity::class.java)
+            intentHistory.putExtra("data", data)
+            startActivity(intentHistory)
         }
 
         val executor = Executors.newSingleThreadExecutor()
