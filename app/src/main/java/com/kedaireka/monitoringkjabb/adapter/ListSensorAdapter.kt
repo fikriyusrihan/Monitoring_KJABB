@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.ui.detail.DetailSensorActivity
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_DICT
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_ID
 
 class ListSensorAdapter(
     private val listSensor: ArrayList<Sensor>,
@@ -35,7 +37,7 @@ class ListSensorAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (_, name, value, unit, _, urlIcon) = listSensor[position]
+        val (id, name, value, unit, _, urlIcon) = listSensor[position]
         val threshold: Map<String, Double> = listThreshold[position]
 
         val upper = threshold["upper"]
@@ -43,7 +45,12 @@ class ListSensorAdapter(
         val displayValue = "$value $unit"
 
         holder.tvName.text = name
-        holder.tvValue.text = displayValue
+
+        if (id == RAINDROPS_ID) {
+            holder.tvValue.text = RAINDROPS_DICT[value.toInt()]
+        } else {
+            holder.tvValue.text = displayValue
+        }
 
         if (urlIcon != "") {
             Glide

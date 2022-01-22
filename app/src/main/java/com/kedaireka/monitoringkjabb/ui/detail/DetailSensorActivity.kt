@@ -32,6 +32,8 @@ import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.ui.history.HistorySensorActivity
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_DICT
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_ID
 import java.util.*
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
@@ -217,7 +219,12 @@ class DetailSensorActivity : AppCompatActivity() {
     private fun setData(sensor: Sensor) {
         val displayValue = "${sensor.value} ${sensor.unit}"
         tvTitle.text = sensor.name
-        tvValue.text = displayValue
+
+        if (sensor.id == RAINDROPS_ID) {
+            tvValue.text = RAINDROPS_DICT[sensor.value.toInt()]
+        } else {
+            tvValue.text = displayValue
+        }
 
         val df = DateFormat.format("hh:mm a", sensor.created_at.toDate())
         val lastUpdate = "${getString(R.string.last_update_dummy)} $df"
