@@ -26,7 +26,7 @@ class DashboardViewModel : ViewModel() {
     val thresholdData = _thresholdData
 
     init {
-//      createDummyRecords()
+//        createDummyRecords()
         getSensorsData()
     }
 
@@ -67,8 +67,8 @@ class DashboardViewModel : ViewModel() {
     }
 
     private fun createDummyRecords() {
-        for (i in 0..100) {
-            val timeInMillis = Date().time + (1800000 * i)
+        for (i in 0..1500) {
+            val timeInMillis = Date().time - (1800000 * i)
             val db = DATABASE_REFERENCE
             val data = mutableMapOf<String, Any>()
             data["created_at"] = timeInMillis / 1000

@@ -1,60 +1,72 @@
 package com.kedaireka.monitoringkjabb.ui.history.parameter
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.kedaireka.monitoringkjabb.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kedaireka.monitoringkjabb.adapter.ListHistoryAdapter
+import com.kedaireka.monitoringkjabb.databinding.FragmentMonthlyHistroryBinding
+import com.kedaireka.monitoringkjabb.model.Sensor
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MonthlyHistroryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MonthlyHistroryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var monthlyHistoryViewModel: MonthlyHistoryViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentMonthlyHistroryBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var list: ArrayList<Sensor>
+    private lateinit var rvHistory: RecyclerView
+
+    private var min = 0.0
+    private var max = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_monthly_histrory, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MonthlyHistroryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MonthlyHistroryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        monthlyHistoryViewModel = ViewModelProvider(this)[MonthlyHistoryViewModel::class.java]
+
+        _binding = FragmentMonthlyHistroryBinding.inflate(inflater, container, false)
+
+        rvHistory = binding.rvRecords
+        rvHistory.setHasFixedSize(true)
+
+        val bundle = arguments
+        val sensor = bundle!!.getParcelable<Sensor>("data") as Sensor
+
+        monthlyHistoryViewModel.getSensorHistory(sensor)
+
+        monthlyHistoryViewModel.avg.observe(viewLifecycleOwner, {
+            val value = "%.2f ${sensor.unit}".format(it)
+            binding.tvValue.text = value
+        })
+
+        monthlyHistoryViewModel.max.observe(viewLifecycleOwner, {
+            max = it
+            val value = "Max: $max | Min: $min"
+            binding.tvMaxMin.text = value
+        })
+
+        monthlyHistoryViewModel.min.observe(viewLifecycleOwner, {
+            min = it
+            val value = "Max: $max | Min: $min"
+            binding.tvMaxMin.text = value
+        })
+
+        monthlyHistoryViewModel.records.observe(viewLifecycleOwner, {
+            list = it
+            rvHistory.layoutManager = LinearLayoutManager(this.requireContext())
+            val listHistoryAdapter = ListHistoryAdapter(list)
+            rvHistory.adapter = listHistoryAdapter
+        })
+
+        binding.tvTitle.text = sensor.name
+
+        return binding.root
     }
 }

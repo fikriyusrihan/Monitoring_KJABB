@@ -33,9 +33,20 @@ class HistoryViewPagerAdapter(
 
                 return dailyHistoryFragment
             }
-            1 -> return WeeklyHistoryFragment()
+            1 -> {
+                val bundle = Bundle()
+                val weeklyHistoryFragment = WeeklyHistoryFragment()
+                bundle.putParcelable("data", sensor)
+                weeklyHistoryFragment.arguments = bundle
+
+                return weeklyHistoryFragment
+            }
         }
 
-        return MonthlyHistroryFragment()
+        val bundle = Bundle()
+        val monthlyHistroryFragment = MonthlyHistroryFragment()
+        bundle.putParcelable("data", sensor)
+        monthlyHistroryFragment.arguments = bundle
+        return monthlyHistroryFragment
     }
 }
