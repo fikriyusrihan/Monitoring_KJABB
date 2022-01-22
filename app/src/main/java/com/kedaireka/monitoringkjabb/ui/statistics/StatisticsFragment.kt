@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kedaireka.monitoringkjabb.databinding.FragmentStatisticsBinding
 
-val parameterArray = arrayOf(
+private val parameterArray = arrayOf(
     "Ammonia",
     "Raindrops",
     "Water Temperature"
@@ -19,7 +19,6 @@ val parameterArray = arrayOf(
 
 class StatisticsFragment : Fragment() {
 
-    private lateinit var statisticsViewModel: StatisticsViewModel
     private var _binding: FragmentStatisticsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -31,8 +30,6 @@ class StatisticsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        statisticsViewModel =
-            ViewModelProvider(this)[StatisticsViewModel::class.java]
 
         _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
         val root: View = binding.root

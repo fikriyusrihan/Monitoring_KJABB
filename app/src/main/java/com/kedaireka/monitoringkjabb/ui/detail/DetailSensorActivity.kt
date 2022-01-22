@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityDetailSensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.ui.history.HistorySensorActivity
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
@@ -116,6 +117,13 @@ class DetailSensorActivity : AppCompatActivity() {
         val btnSetThreshold = binding.cvThresholdSetting
         btnSetThreshold.setOnClickListener {
             showSetThresholdDialog(data)
+        }
+
+        val btnHistory = binding.cvHistorySensor
+        btnHistory.setOnClickListener {
+            val intentHistory = Intent(this, HistorySensorActivity::class.java)
+            intentHistory.putExtra("data", data)
+            startActivity(intentHistory)
         }
 
         val executor = Executors.newSingleThreadExecutor()
@@ -244,6 +252,8 @@ class DetailSensorActivity : AppCompatActivity() {
         val lineDataSet = LineDataSet(lineEntry, records[0].name)
         lineDataSet.circleColors =
             mutableListOf(ContextCompat.getColor(applicationContext, R.color.grey_light))
+        lineDataSet.color = resources.getColor(R.color.blue_primary)
+        lineDataSet.fillColor = resources.getColor(R.color.blue_primary)
 
 
         val xAxis = lineChart.xAxis

@@ -5,7 +5,7 @@
     <string name="statistics">Statistics</string>
     <string name="dashboard_description">Recent data summary from sensors</string>
     <string name="dissolved_oxygen">Dissolved Oxygen</string>
-    <string name="do_dummy" translatable="false">6.2 mg/l</string>
+    <string name="do_dummy" translatable="false">-</string>
     <string name="water_temperature">Water Temperature</string>
     <string name="last_update_dummy">Last Updated:</string>
     <string name="title_statistics">Statistics</string>
@@ -49,4 +49,20 @@
     <string name="threshold_warning_deactivated">Threshold Warning Deactivated</string>
     <string name="daily_notification_activated">Daily Notification Activated</string>
     <string name="daily_notification_deactivated">Daily Notification Deactivated</string>
+    <string name="show_records">Show Records</string>
+    <string name="displaying_data_within_a_certain_time_span">Displaying data within a certain time span</string>
+    <string name="records">Records</string>
+    <string name="sensor_records_detail">Sensor records detail</string>
+    <string name="average">Average</string>
+    <string name="daily_average">Daily Average</string>
+    <string name="dummy_date" translatable="false">22 January 2022 11.59 AM</string>
+    <string name="history">History</string>
+    <string name="today">Today</string>
+    <string name="_7_days">7 Days</string>
+    <string name="_31_days">31 days</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="max_min_dummy" translatable="false">Max: - | Min: -</string>
+    <string name="weekly_average">Weekly Average</string>
+    <string name="monthly_average">Monthly Average</string>
 </resources>

@@ -44,4 +44,16 @@
     <string name="threshold_warning_deactivated">Peringatan Threshold Mati</string>
     <string name="daily_notification_activated">Notifikasi Harian Aktif</string>
     <string name="daily_notification_deactivated">Notifikasi Harian Mati</string>
+    <string name="show_records">Tampilkan Catatan</string>
+    <string name="displaying_data_within_a_certain_time_span">Menampilkan data dalam kurun waktu tertentu</string>
+    <string name="records">Catatan</string>
+    <string name="sensor_records_detail">Detail catatan sensor</string>
+    <string name="average">Rata-Rata</string>
+    <string name="daily_average">Rata-Rata Harian</string>
+    <string name="history">Catatan</string>
+    <string name="today">Hari Ini</string>
+    <string name="_7_days">7 Hari</string>
+    <string name="_31_days">31 Hari</string>
+    <string name="weekly_average">Rata-Rata Mingguan</string>
+    <string name="monthly_average">Rata-Rata Bulanan</string>
 </resources>

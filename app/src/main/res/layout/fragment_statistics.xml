@@ -54,8 +54,7 @@
             android:layout_below="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:tabMode="scrollable">
+            android:layout_marginTop="16dp">
 
             <!-- This section is already replaced by kotlin logic -->
             <com.google.android.material.tabs.TabItem
