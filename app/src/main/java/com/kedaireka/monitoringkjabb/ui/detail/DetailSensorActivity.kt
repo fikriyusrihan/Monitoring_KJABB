@@ -244,6 +244,8 @@ class DetailSensorActivity : AppCompatActivity() {
         val lineDataSet = LineDataSet(lineEntry, records[0].name)
         lineDataSet.circleColors =
             mutableListOf(ContextCompat.getColor(applicationContext, R.color.grey_light))
+        lineDataSet.color = resources.getColor(R.color.blue_primary)
+        lineDataSet.fillColor = resources.getColor(R.color.blue_primary)
 
 
         val xAxis = lineChart.xAxis

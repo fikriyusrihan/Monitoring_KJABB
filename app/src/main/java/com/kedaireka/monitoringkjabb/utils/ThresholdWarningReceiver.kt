@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.R
-import com.kedaireka.monitoringkjabb.activity.MainActivity
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.ui.detail.DetailSensorActivity
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
 
@@ -45,11 +45,20 @@ class ThresholdWarningReceiver : BroadcastReceiver() {
         Toast.makeText(context, R.string.threshold_warning_activated, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showAlarmNotification(context: Context, notificationId: Int, sensor: Sensor) {
+    private fun showAlarmNotification(
+        context: Context,
+        notificationId: Int,
+        sensor: Sensor,
+        threshold: Map<String, Double>
+    ) {
         val CHANNEL_ID = "Channel_2"
         val CHANNEL_NAME = "Threshold Warning Notification"
 
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, DetailSensorActivity::class.java)
+        intent.putExtra("data", sensor)
+        intent.putExtra("upper", threshold["upper"])
+        intent.putExtra("lower", threshold["lower"])
+
         val pendingIntent = PendingIntent.getActivity(
             context,
             0,
@@ -134,7 +143,7 @@ class ThresholdWarningReceiver : BroadcastReceiver() {
                 val value = sensorData[i].value.toDouble()
 
                 if (value !in lower..upper) {
-                    showAlarmNotification(context, notificationId, sensorData[i])
+                    showAlarmNotification(context, notificationId, sensorData[i], thresholdData[i])
                 }
             }
         }
