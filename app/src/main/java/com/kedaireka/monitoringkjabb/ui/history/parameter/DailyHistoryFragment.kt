@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kedaireka.monitoringkjabb.adapter.ListHistoryAdapter
 import com.kedaireka.monitoringkjabb.databinding.FragmentDailyBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
 
@@ -15,6 +18,9 @@ class DailyHistoryFragment : Fragment() {
 
     private var _binding: FragmentDailyBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var list: ArrayList<Sensor>
+    private lateinit var rvHistory: RecyclerView
 
     private var min = 0.0
     private var max = 0.0
@@ -27,6 +33,9 @@ class DailyHistoryFragment : Fragment() {
         dailyHistoryViewModel = ViewModelProvider(this)[DailyHistoryViewModel::class.java]
 
         _binding = FragmentDailyBinding.inflate(inflater, container, false)
+
+        rvHistory = binding.rvRecords
+        rvHistory.setHasFixedSize(true)
 
         val bundle = arguments
         val sensor = bundle!!.getParcelable<Sensor>("data") as Sensor
@@ -48,6 +57,13 @@ class DailyHistoryFragment : Fragment() {
             min = it
             val value = "Max: $max | Min: $min"
             binding.tvMaxMin.text = value
+        })
+
+        dailyHistoryViewModel.records.observe(viewLifecycleOwner, {
+            list = it
+            rvHistory.layoutManager = LinearLayoutManager(this.requireContext())
+            val listHistoryAdapter = ListHistoryAdapter(list)
+            rvHistory.adapter = listHistoryAdapter
         })
 
         binding.tvTitle.text = sensor.name

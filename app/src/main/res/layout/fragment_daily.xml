@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/constraint_layout"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/history"
         android:textAllCaps="true"
         android:textStyle="bold" />
@@ -81,8 +81,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/tv_history"
         android:layout_marginTop="16dp"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp"
         tools:listitem="@layout/history_card" />
 
 </RelativeLayout>
