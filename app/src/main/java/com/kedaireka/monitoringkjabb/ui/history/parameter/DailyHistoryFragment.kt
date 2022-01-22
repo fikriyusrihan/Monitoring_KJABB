@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kedaireka.monitoringkjabb.adapter.ListHistoryAdapter
 import com.kedaireka.monitoringkjabb.databinding.FragmentDailyBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_DICT
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_ID
 
 class DailyHistoryFragment : Fragment() {
 
@@ -44,9 +46,8 @@ class DailyHistoryFragment : Fragment() {
 
         dailyHistoryViewModel.avg.observe(viewLifecycleOwner, {
 
-            if (sensor.id == "raindrops") {
-                val value = "${it.toInt()} ${sensor.unit}"
-                binding.tvValue.text = value
+            if (sensor.id == RAINDROPS_ID) {
+                binding.tvValue.text = RAINDROPS_DICT[it.toInt()]
             } else {
                 val value = "%.2f ${sensor.unit}".format(it)
                 binding.tvValue.text = value

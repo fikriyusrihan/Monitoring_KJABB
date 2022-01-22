@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_DICT
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_ID
 
 class ListHistoryAdapter(private val listHistory: ArrayList<Sensor>) :
     RecyclerView.Adapter<ListHistoryAdapter.ListViewHolder>() {
@@ -27,10 +29,16 @@ class ListHistoryAdapter(private val listHistory: ArrayList<Sensor>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val sensor = listHistory[position]
 
-        val value = "${sensor.value} ${sensor.unit}"
+
+        if (sensor.id == RAINDROPS_ID) {
+            holder.tvValue.text = RAINDROPS_DICT[sensor.value.toInt()]
+        } else {
+            val value = "${sensor.value} ${sensor.unit}"
+            holder.tvValue.text = value
+        }
+
         val df = DateFormat.format("yyyy-MM-dd hh:mm a", sensor.created_at.toDate())
 
-        holder.tvValue.text = value
         holder.tvTime.text = df
     }
 
