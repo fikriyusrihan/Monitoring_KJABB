@@ -67,6 +67,18 @@
 
             </LinearLayout>
 
+            <ImageButton
+                android:id="@+id/btn_info"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/white_button_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_outline_info_24"
+                android:visibility="gone" />
+
 
         </LinearLayout>
 

@@ -128,6 +128,14 @@ class DetailSensorActivity : AppCompatActivity() {
             startActivity(intentHistory)
         }
 
+        if (data.id == RAINDROPS_ID) {
+            binding.btnInfo.visibility = View.VISIBLE
+        }
+        
+        binding.btnInfo.setOnClickListener {
+            Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
+        }
+
         val executor = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
 
