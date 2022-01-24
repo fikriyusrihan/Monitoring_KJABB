@@ -65,8 +65,8 @@ class AlarmReceiver : BroadcastReceiver() {
         )
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-            .setContentTitle("Notifikasi Harian")
-            .setContentText("Lihat keadaan kualitas perairan saat ini")
+            .setContentTitle(context.getString(R.string.daily_notification))
+            .setContentText(context.getString(R.string.daily_notification_message))
             .setAutoCancel(true)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

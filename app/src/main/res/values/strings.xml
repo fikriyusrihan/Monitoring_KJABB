@@ -65,4 +65,26 @@
     <string name="max_min_dummy" translatable="false">Max: - | Min: -</string>
     <string name="weekly_average">Weekly Average</string>
     <string name="monthly_average">Monthly Average</string>
+    <string name="raindrops_sensor" translatable="false">Raindrops Sensor</string>
+    <string name="raindrops_sensor_description">Raindrops sensor can detect whether it is raining around the sensor or not. The data sent by this sensor is in the form of numbers from 0–4 with each number having the following meaning:</string>
+    <string name="_1" translatable="false">1</string>
+    <string name="_0" translatable="false">0</string>
+    <string name="tidak_hujan">Not Raining</string>
+    <string name="sensor_tidak_mendeteksi_adanya_hujan_pada_daerah_di_sekitar_sensor">The sensor does not detect rain in the area around the sensor</string>
+    <string name="noise" translatable="false">Noise</string>
+    <string name="sensor_mendeteksi_adanya_air_pada_sensor_tetapi_belum_dikategorikan_sebagai_hujan_sehingga_hanya_dianggap_sebagai_noise_tidak_hujan">The sensor detects the presence of water on the sensor but it has not been categorized as rain so it is only considered as noise / not raining</string>
+    <string name="_2" translatable="false">2</string>
+    <string name="gerimis">Light Rain</string>
+    <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_rendah">The sensor detects the presence of low intensity rain on the sensor surface</string>
+    <string name="_3" translatable="false">3</string>
+    <string name="sedang">Moderate Rain</string>
+    <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_sedang_pada_permukaan_sensor">The sensor detects the presence of moderate intensity rain on the sensor surface</string>
+    <string name="_4" translatable="false">4</string>
+    <string name="tinggi">Heavy Rain</string>
+    <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_tinggi_pada_permukaan_sensor">The sensor detects the presence of high intensity rain on the sensor surface</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="daily_notification_message">See the current state of water quality</string>
+    <string name="threshold_notification_message">The sensor detects a value outside the safe limit</string>
 </resources>

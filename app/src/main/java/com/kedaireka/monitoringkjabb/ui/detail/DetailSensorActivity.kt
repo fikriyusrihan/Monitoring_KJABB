@@ -8,6 +8,7 @@ import android.os.*
 import android.provider.Settings
 import android.text.format.DateFormat
 import android.view.View
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -23,6 +24,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
@@ -57,6 +60,10 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var records: ArrayList<Sensor>
     private lateinit var recordsInRange: ArrayList<Sensor>
 
+    private lateinit var sheetBehavior: BottomSheetBehavior<View>
+    private lateinit var sheetDialog: BottomSheetDialog
+    private lateinit var bottomSheet: View
+
     companion object {
         private const val STORAGE_PERMISSION_CODE = 101
         private const val MANAGE_STORAGE_PERMISSION_CODE = 102
@@ -78,6 +85,9 @@ class DetailSensorActivity : AppCompatActivity() {
         lineChart = binding.lineChart
         thresholdStatus = binding.tvThresholdsStatus
         card = binding.banner
+
+        bottomSheet = binding.bottomSheet
+        sheetBehavior = BottomSheetBehavior.from(bottomSheet)
 
         val data: Sensor = intent.extras?.get("data") as Sensor
         val upper = intent.extras?.get("upper") as Double
@@ -133,7 +143,7 @@ class DetailSensorActivity : AppCompatActivity() {
         }
         
         binding.btnInfo.setOnClickListener {
-            Toast.makeText(this, "Hello", Toast.LENGTH_SHORT).show()
+            showBottomSheetDialog()
         }
 
         val executor = Executors.newSingleThreadExecutor()
@@ -229,7 +239,7 @@ class DetailSensorActivity : AppCompatActivity() {
         tvTitle.text = sensor.name
 
         if (sensor.id == RAINDROPS_ID) {
-            tvValue.text = RAINDROPS_DICT[sensor.value.toInt()]
+            tvValue.text = getString(RAINDROPS_DICT[sensor.value.toInt()]!!)
         } else {
             tvValue.text = displayValue
         }
@@ -353,6 +363,23 @@ class DetailSensorActivity : AppCompatActivity() {
                     setThresholdStatus(upperValue, lowerValue, data)
                 }
             }.show()
+    }
+
+    private fun showBottomSheetDialog() {
+        val view = layoutInflater.inflate(R.layout.raindrops_information_sheet, null)
+        sheetDialog = BottomSheetDialog(this)
+        sheetDialog.setContentView(view)
+
+        if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        sheetDialog.window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+        sheetDialog.show()
+        sheetDialog.setOnDismissListener {
+            sheetDialog.dismiss()
+        }
     }
 
 }

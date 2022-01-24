@@ -47,7 +47,7 @@ class DailyHistoryFragment : Fragment() {
         dailyHistoryViewModel.avg.observe(viewLifecycleOwner, {
 
             if (sensor.id == RAINDROPS_ID) {
-                binding.tvValue.text = RAINDROPS_DICT[it.toInt()]
+                binding.tvValue.text = getString(RAINDROPS_DICT[it.toInt()]!!)
             } else {
                 val value = "%.2f ${sensor.unit}".format(it)
                 binding.tvValue.text = value
