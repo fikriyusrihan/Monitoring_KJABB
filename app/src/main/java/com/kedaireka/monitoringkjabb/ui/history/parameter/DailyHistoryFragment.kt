@@ -52,8 +52,6 @@ class DailyHistoryFragment : Fragment() {
                 val value = "%.2f ${sensor.unit}".format(it)
                 binding.tvValue.text = value
             }
-
-
         })
 
         dailyHistoryViewModel.max.observe(viewLifecycleOwner, {

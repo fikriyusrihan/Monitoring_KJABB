@@ -10,6 +10,6 @@ class RaindropsMapper {
             4 to "Deras"
         )
 
-        val RAINDROPS_ID = "raindrops"
+        const val RAINDROPS_ID = "raindrops"
     }
 }

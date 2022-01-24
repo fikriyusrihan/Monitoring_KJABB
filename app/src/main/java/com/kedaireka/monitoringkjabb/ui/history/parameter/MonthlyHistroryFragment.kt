@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kedaireka.monitoringkjabb.adapter.ListHistoryAdapter
 import com.kedaireka.monitoringkjabb.databinding.FragmentMonthlyHistroryBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
+import com.kedaireka.monitoringkjabb.utils.RaindropsMapper
 
 class MonthlyHistroryFragment : Fragment() {
     private lateinit var monthlyHistoryViewModel: MonthlyHistoryViewModel
@@ -42,9 +43,8 @@ class MonthlyHistroryFragment : Fragment() {
         monthlyHistoryViewModel.getSensorHistory(sensor)
 
         monthlyHistoryViewModel.avg.observe(viewLifecycleOwner, {
-            if (sensor.id == "raindrops") {
-                val value = "${it.toInt()} ${sensor.unit}"
-                binding.tvValue.text = value
+            if (sensor.id == RaindropsMapper.RAINDROPS_ID) {
+                binding.tvValue.text = RaindropsMapper.RAINDROPS_DICT[it.toInt()]
             } else {
                 val value = "%.2f ${sensor.unit}".format(it)
                 binding.tvValue.text = value
