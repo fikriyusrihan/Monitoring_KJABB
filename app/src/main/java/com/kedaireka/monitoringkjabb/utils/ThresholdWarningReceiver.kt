@@ -38,7 +38,7 @@ class ThresholdWarningReceiver : BroadcastReceiver() {
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+            AlarmManager.INTERVAL_HALF_HOUR,
             pendingIntent
         )
 
