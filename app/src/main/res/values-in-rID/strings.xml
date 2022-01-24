@@ -56,4 +56,14 @@
     <string name="_31_days">31 Hari</string>
     <string name="weekly_average">Rata-Rata Mingguan</string>
     <string name="monthly_average">Rata-Rata Bulanan</string>
+    <string name="raindrops_sensor_description">Raindrops sensor dapat mendeteksi apakah sedang terjadi hujan di sekitar sensor atau tidak. Data yang dikirimkan oleh sensor ini berupa angka dari 0-4 dengan masing-masing angka memiliki arti sebagai berikut:</string>
+    <string name="tidak_hujan">Tidak Hujan</string>
+    <string name="sensor_tidak_mendeteksi_adanya_hujan_pada_daerah_di_sekitar_sensor">Sensor tidak mendeteksi adanya hujan pada daerah di sekitar sensor</string>
+    <string name="sensor_mendeteksi_adanya_air_pada_sensor_tetapi_belum_dikategorikan_sebagai_hujan_sehingga_hanya_dianggap_sebagai_noise_tidak_hujan">Sensor mendeteksi adanya air pada sensor tetapi belum dikategorikan sebagai hujan sehingga hanya dianggap sebagai noise/tidak hujan</string>
+    <string name="gerimis">Gerimis</string>
+    <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_rendah">Sensor mendeteksi adanya hujan dengan intensitas rendah pada permukaan sensor</string>
+    <string name="sedang">Sedang</string>
+    <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_sedang_pada_permukaan_sensor">Sensor mendeteksi adanya hujan dengan intensitas sedang pada permukaan sensor</string>
+    <string name="tinggi">Deras</string>
+    <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_tinggi_pada_permukaan_sensor">Sensor mendeteksi adanya hujan dengan intensitas tinggi pada permukaan sensor</string>
 </resources>
