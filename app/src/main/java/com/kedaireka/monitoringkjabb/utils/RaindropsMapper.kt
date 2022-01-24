@@ -1,13 +1,15 @@
 package com.kedaireka.monitoringkjabb.utils
 
+import com.kedaireka.monitoringkjabb.R
+
 class RaindropsMapper {
     companion object {
-        val RAINDROPS_DICT = mapOf<Int, String>(
-            0 to "Tidak Hujan",
-            1 to "Tidak Hujan",
-            2 to "Gerimis",
-            3 to "Sedang",
-            4 to "Deras"
+        val RAINDROPS_DICT = mapOf(
+            0 to R.string.tidak_hujan,
+            1 to R.string.tidak_hujan,
+            2 to R.string.gerimis,
+            3 to R.string.sedang,
+            4 to R.string.tinggi
         )
 
         const val RAINDROPS_ID = "raindrops"

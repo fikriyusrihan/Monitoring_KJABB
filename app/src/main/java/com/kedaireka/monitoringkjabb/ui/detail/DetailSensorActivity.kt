@@ -239,7 +239,7 @@ class DetailSensorActivity : AppCompatActivity() {
         tvTitle.text = sensor.name
 
         if (sensor.id == RAINDROPS_ID) {
-            tvValue.text = RAINDROPS_DICT[sensor.value.toInt()]
+            tvValue.text = getString(RAINDROPS_DICT[sensor.value.toInt()]!!)
         } else {
             tvValue.text = displayValue
         }

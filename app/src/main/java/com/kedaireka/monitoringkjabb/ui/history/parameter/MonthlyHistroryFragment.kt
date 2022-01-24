@@ -44,7 +44,7 @@ class MonthlyHistroryFragment : Fragment() {
 
         monthlyHistoryViewModel.avg.observe(viewLifecycleOwner, {
             if (sensor.id == RaindropsMapper.RAINDROPS_ID) {
-                binding.tvValue.text = RaindropsMapper.RAINDROPS_DICT[it.toInt()]
+                binding.tvValue.text = getString(RaindropsMapper.RAINDROPS_DICT[it.toInt()]!!)
             } else {
                 val value = "%.2f ${sensor.unit}".format(it)
                 binding.tvValue.text = value

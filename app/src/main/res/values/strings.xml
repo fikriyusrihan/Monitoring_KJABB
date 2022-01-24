@@ -82,4 +82,9 @@
     <string name="_4" translatable="false">4</string>
     <string name="tinggi">Heavy Rain</string>
     <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_tinggi_pada_permukaan_sensor">The sensor detects the presence of high intensity rain on the sensor surface</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="daily_notification_message">See the current state of water quality</string>
+    <string name="threshold_notification_message">The sensor detects a value outside the safe limit</string>
 </resources>

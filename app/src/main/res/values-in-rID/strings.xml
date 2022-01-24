@@ -66,4 +66,9 @@
     <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_sedang_pada_permukaan_sensor">Sensor mendeteksi adanya hujan dengan intensitas sedang pada permukaan sensor</string>
     <string name="tinggi">Deras</string>
     <string name="sensor_mendeteksi_adanya_hujan_dengan_intensitas_tinggi_pada_permukaan_sensor">Sensor mendeteksi adanya hujan dengan intensitas tinggi pada permukaan sensor</string>
+    <string name="daily">Harian</string>
+    <string name="weekly">Mingguan</string>
+    <string name="monthly">Bulanan</string>
+    <string name="daily_notification_message">Lihat keadaan kualitas perairan saat ini</string>
+    <string name="threshold_notification_message">Sensor mendeteksi nilai di luar batas aman</string>
 </resources>

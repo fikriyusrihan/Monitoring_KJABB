@@ -3,14 +3,9 @@ package com.kedaireka.monitoringkjabb.ui.history
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.kedaireka.monitoringkjabb.R
 import com.kedaireka.monitoringkjabb.databinding.ActivityHistorySensorBinding
 import com.kedaireka.monitoringkjabb.model.Sensor
-
-private val parameterArray = arrayOf(
-    "Daily",
-    "Weekly",
-    "Monthly"
-)
 
 class HistorySensorActivity : AppCompatActivity() {
 
@@ -21,6 +16,12 @@ class HistorySensorActivity : AppCompatActivity() {
 
         historySensorBinding = ActivityHistorySensorBinding.inflate(layoutInflater)
         setContentView(historySensorBinding.root)
+
+        val parameterArray = arrayOf(
+            getString(R.string.daily),
+            getString(R.string.weekly),
+            getString(R.string.monthly)
+        )
 
         val sensor = intent.extras?.get("data") as Sensor
 

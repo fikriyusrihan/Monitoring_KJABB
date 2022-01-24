@@ -75,8 +75,8 @@ class ThresholdWarningReceiver : BroadcastReceiver() {
         )
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.ic_baseline_notifications_24)
-            .setContentTitle("Peringatan Threshold")
-            .setContentText("Sensor mendeteksi nilai di luar batas aman")
+            .setContentTitle(context.getString(R.string.threshold_warning))
+            .setContentText(context.getString(R.string.threshold_notification_message))
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText("${sensor.name} berada diluar batas aman dengan nilai saat ini ${sensor.value} ${sensor.unit}")
