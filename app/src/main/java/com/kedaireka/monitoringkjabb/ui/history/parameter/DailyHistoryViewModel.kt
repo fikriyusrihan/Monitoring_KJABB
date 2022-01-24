@@ -10,6 +10,9 @@ import com.kedaireka.monitoringkjabb.model.Sensor
 import java.util.*
 
 class DailyHistoryViewModel : ViewModel() {
+
+    private val TAG = "DailyHistoryViewModel"
+
     private val _records = MutableLiveData<ArrayList<Sensor>>()
     val records: LiveData<ArrayList<Sensor>> = _records
 
@@ -42,7 +45,6 @@ class DailyHistoryViewModel : ViewModel() {
                 var min = Double.MAX_VALUE
                 var max = Double.MIN_VALUE
                 var counter = 0.0
-                var avg = 0.0
 
                 for (document in result.children) {
                     val id = sensor.id
@@ -70,7 +72,7 @@ class DailyHistoryViewModel : ViewModel() {
                     }
                 }
 
-                avg = counter / records.size
+                val avg: Double = counter / records.size
 
                 _records.postValue(records)
                 _min.postValue(min)
