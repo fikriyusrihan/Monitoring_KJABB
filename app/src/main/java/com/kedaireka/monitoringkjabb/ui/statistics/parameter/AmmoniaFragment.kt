@@ -36,7 +36,6 @@ import kotlin.collections.ArrayList
 class AmmoniaFragment : Fragment() {
 
     private lateinit var ammoniaFragmentViewModel: AmmoniaFragmentViewModel
-    private lateinit var allRecords: ArrayList<Sensor>
     private lateinit var recordsInRange: ArrayList<Sensor>
 
     private var _binding: FragmentAmmoniaBinding? = null
