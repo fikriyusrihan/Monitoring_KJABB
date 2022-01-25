@@ -87,4 +87,7 @@
     <string name="monthly">Monthly</string>
     <string name="daily_notification_message">See the current state of water quality</string>
     <string name="threshold_notification_message">The sensor detects a value outside the safe limit</string>
+    <string name="status" translatable="false">Status:</string>
+    <string name="status_good">Status: Good</string>
+    <string name="status_bad">Status: Bad</string>
 </resources>
