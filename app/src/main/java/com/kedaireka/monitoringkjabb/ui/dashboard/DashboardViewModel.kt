@@ -75,17 +75,4 @@ class DashboardViewModel : ViewModel() {
         }
     }
 
-    private fun check() {
-        val dbRef = DATABASE_REFERENCE
-        dbRef.child("sensors/ammonia/records").orderByKey().limitToLast(10).get()
-            .addOnSuccessListener { result ->
-                for (document in result.children) {
-                    Log.d("DetailSensorViewModel", document.key.toString())
-                }
-            }
-            .addOnFailureListener {
-                it.printStackTrace()
-            }
-    }
-
 }
