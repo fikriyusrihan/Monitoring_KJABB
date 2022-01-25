@@ -65,8 +65,8 @@ class DetailSensorActivity : AppCompatActivity() {
     private lateinit var bottomSheet: View
 
     companion object {
-        private const val STORAGE_PERMISSION_CODE = 101
-        private const val MANAGE_STORAGE_PERMISSION_CODE = 102
+        const val STORAGE_PERMISSION_CODE = 101
+        const val MANAGE_STORAGE_PERMISSION_CODE = 102
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -175,7 +175,7 @@ class DetailSensorActivity : AppCompatActivity() {
                 .setSelection(
                     Pair(
                         MaterialDatePicker.thisMonthInUtcMilliseconds(),
-                        MaterialDatePicker.todayInUtcMilliseconds() + 86400000
+                        MaterialDatePicker.todayInUtcMilliseconds()
                     )
                 )
                 .build()

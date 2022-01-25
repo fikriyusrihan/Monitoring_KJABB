@@ -71,4 +71,6 @@
     <string name="monthly">Bulanan</string>
     <string name="daily_notification_message">Lihat keadaan kualitas perairan saat ini</string>
     <string name="threshold_notification_message">Sensor mendeteksi nilai di luar batas aman</string>
+    <string name="status_good">Status: Baik</string>
+    <string name="status_bad">Status: Buruk</string>
 </resources>
