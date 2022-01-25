@@ -60,7 +60,6 @@
     <string name="today">Today</string>
     <string name="_7_days">7 Days</string>
     <string name="_31_days">31 days</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="max_min_dummy" translatable="false">Max: - | Min: -</string>
     <string name="weekly_average">Weekly Average</string>
