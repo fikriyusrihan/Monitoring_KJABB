@@ -1,5 +1,6 @@
 package com.kedaireka.monitoringkjabb.ui.history.parameter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,28 +47,31 @@ class MonthlyHistoryViewModel : ViewModel() {
                 var avg = 0.0
 
                 for (document in result.children) {
-                    val id = sensor.id
-                    val name = sensor.name
-                    val value = document.child("value").value.toString()
-                    val unit = sensor.unit
-                    val createdAt = Timestamp(
-                        Date(
-                            document.child("created_at").value.toString().toLong() * 1000
+                    try {
+                        val id = sensor.id
+                        val name = sensor.name
+                        val value = document.child("value").value.toString()
+                        val unit = sensor.unit
+                        val createdAt = Timestamp(
+                            Date(
+                                document.child("created_at").value.toString().toLong() * 1000
+                            )
                         )
-                    )
-                    val urlIcon = sensor.urlIcon
+                        val urlIcon = sensor.urlIcon
 
-                    records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
+                        val valueInDouble = value.toDouble()
+                        counter += valueInDouble
 
+                        if (valueInDouble < min) {
+                            min = valueInDouble
+                        }
+                        if (valueInDouble > max) {
+                            max = valueInDouble
+                        }
 
-                    val valueInDouble = value.toDouble()
-                    counter += valueInDouble
-
-                    if (valueInDouble < min) {
-                        min = valueInDouble
-                    }
-                    if (valueInDouble > max) {
-                        max = valueInDouble
+                        records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
+                    } catch (e: Exception) {
+                        Log.d(MonthlyHistoryViewModel::class.java.simpleName, e.message.toString())
                     }
                 }
 

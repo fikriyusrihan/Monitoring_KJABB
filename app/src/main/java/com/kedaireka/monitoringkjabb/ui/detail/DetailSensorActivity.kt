@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.*
 import android.provider.Settings
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
@@ -37,9 +38,7 @@ import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_DICT
 import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_ID
-import java.util.*
 import java.util.concurrent.Executors
-import kotlin.collections.ArrayList
 
 
 class DetailSensorActivity : AppCompatActivity() {
@@ -99,12 +98,12 @@ class DetailSensorActivity : AppCompatActivity() {
         detailSensorViewModel.getSensorRecords(data)
         detailSensorViewModel.getThresholdsData(data)
 
-        detailSensorViewModel.dataSensor.observe(this, {
+        detailSensorViewModel.dataSensor.observe(this) {
             records = it
             setDOLineChart(lineChart, records)
-        })
+        }
 
-        detailSensorViewModel.isLoading.observe(this, {
+        detailSensorViewModel.isLoading.observe(this) {
             if (it) {
                 pbDetail.visibility = View.VISIBLE
                 lineChart.visibility = View.INVISIBLE
@@ -112,14 +111,14 @@ class DetailSensorActivity : AppCompatActivity() {
                 pbDetail.visibility = View.GONE
                 lineChart.visibility = View.VISIBLE
             }
-        })
+        }
 
-        detailSensorViewModel.thresholds.observe(this, { result ->
+        detailSensorViewModel.thresholds.observe(this) { result ->
             val thresholdLower = result["lower"].toString()
             val thresholdUpper = result["upper"].toString()
 
             setThresholdStatus(thresholdUpper, thresholdLower, data)
-        })
+        }
 
         val btnBack = binding.btnBack
         btnBack.setOnClickListener {
@@ -184,8 +183,12 @@ class DetailSensorActivity : AppCompatActivity() {
                 // Generate Data
                 Toast.makeText(this, "Saving Data", Toast.LENGTH_SHORT).show()
 
-                detailSensorViewModel.getSensorRecordInRange(data, time.first / 1000, time.second / 1000)
-                detailSensorViewModel.sensorRecordInRange.observe(this, {
+                detailSensorViewModel.getSensorRecordInRange(
+                    data,
+                    time.first / 1000,
+                    time.second / 1000
+                )
+                detailSensorViewModel.sensorRecordInRange.observe(this) {
                     recordsInRange = it
 
                     if (recordsInRange.isNotEmpty()) {
@@ -194,14 +197,19 @@ class DetailSensorActivity : AppCompatActivity() {
                             ExcelUtils.createExcel(applicationContext, workbook, data)
 
                             handler.post {
-                                Toast.makeText(this, getString(R.string.data_saved), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    getString(R.string.data_saved),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     } else {
-                        Toast.makeText(this, getString(R.string.saving_failed), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.saving_failed), Toast.LENGTH_SHORT)
+                            .show()
                     }
 
-                })
+                }
             }
 
             dateRangePicker.show(supportFragmentManager, "DetailSensorActivity")
@@ -235,7 +243,14 @@ class DetailSensorActivity : AppCompatActivity() {
 
 
     private fun setData(sensor: Sensor) {
-        val displayValue = "${sensor.value} ${sensor.unit}"
+
+        var displayValue = "${sensor.value} ${sensor.unit}"
+
+        if (sensor.value == "null") {
+            displayValue = "N/A"
+        }
+
+
         tvTitle.text = sensor.name
 
         if (sensor.id == RAINDROPS_ID) {
@@ -251,8 +266,12 @@ class DetailSensorActivity : AppCompatActivity() {
     }
 
     private fun setBannerColor(upper: Double, lower: Double, sensor: Sensor) {
-        if (sensor.value.toDouble() !in lower..upper) {
-            card.setBackgroundColor(resources.getColor(R.color.yellow))
+        try {
+            if (sensor.value.toDouble() !in lower..upper) {
+                card.setBackgroundColor(resources.getColor(R.color.yellow))
+            }
+        } catch (e: Exception) {
+            Log.d(DetailSensorActivity::class.java.simpleName, e.message.toString())
         }
     }
 
@@ -268,10 +287,11 @@ class DetailSensorActivity : AppCompatActivity() {
         val size = records.size
 
         for (i in 0 until size) {
-            val df = DateFormat.format("ha", records[size - i - 1].created_at.toDate())
-
-            xValue.add(df.toString())
-            lineEntry.add(Entry(i.toFloat(), records[size - i - 1].value.toFloat()))
+            if (records[size - i - 1].value != "null") {
+                val df = DateFormat.format("ha", records[size - i - 1].created_at.toDate())
+                xValue.add(df.toString())
+                lineEntry.add(Entry(i.toFloat(), records[size - i - 1].value.toFloat()))
+            }
         }
 
         val lineDataSet = LineDataSet(lineEntry, records[0].name)

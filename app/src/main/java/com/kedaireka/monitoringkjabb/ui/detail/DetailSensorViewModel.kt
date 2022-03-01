@@ -39,14 +39,22 @@ class DetailSensorViewModel : ViewModel() {
                 val records = arrayListOf<Sensor>()
                 Log.d("DetailSensorViewModel", result.childrenCount.toString())
                 for (document in result.children) {
-                    val id = sensor.id
-                    val name = sensor.name
-                    val value = document.child("value").value.toString()
-                    val unit = sensor.unit
-                    val createdAt =
-                        Timestamp(Date(document.child("created_at").value.toString().toLong() * 1000))
-                    val urlIcon = sensor.urlIcon
-                    records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
+                    try {
+                        val id = sensor.id
+                        val name = sensor.name
+                        val value = document.child("value").value.toString()
+                        val unit = sensor.unit
+                        val createdAt =
+                            Timestamp(
+                                Date(
+                                    document.child("created_at").value.toString().toLong() * 1000
+                                )
+                            )
+                        val urlIcon = sensor.urlIcon
+                        records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
+                    } catch (e: Exception) {
+                        Log.d(DetailSensorViewModel::class.java.simpleName, e.message.toString())
+                    }
                 }
                 _sensorRecordInRange.postValue(records)
             }.addOnFailureListener {
@@ -63,15 +71,23 @@ class DetailSensorViewModel : ViewModel() {
             .addOnSuccessListener { result ->
                 val records = arrayListOf<Sensor>()
                 for (document in result.children) {
-                    val id = sensor.id
-                    val name = sensor.name
-                    val value = document.child("value").value.toString()
-                    val unit = sensor.unit
-                    val createdAt =
-                        Timestamp(Date(document.child("created_at").value.toString().toLong() * 1000))
-                    val urlIcon = sensor.urlIcon
+                    try {
+                        val id = sensor.id
+                        val name = sensor.name
+                        val value = document.child("value").value.toString()
+                        val unit = sensor.unit
+                        val createdAt =
+                            Timestamp(
+                                Date(
+                                    document.child("created_at").value.toString().toLong() * 1000
+                                )
+                            )
+                        val urlIcon = sensor.urlIcon
 
-                    records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
+                        records.add(Sensor(id, name, value, unit, createdAt, urlIcon))
+                    } catch (e: Exception) {
+                        Log.d(DetailSensorViewModel::class.java.simpleName, e.message.toString())
+                    }
                 }
                 records.reverse()
 

@@ -1,6 +1,7 @@
 package com.kedaireka.monitoringkjabb.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,11 @@ class ListSensorAdapter(
 
         val upper = threshold["upper"]
         val lower = threshold["lower"]
-        val displayValue = "$value $unit"
+        var displayValue = "$value $unit"
+
+        if (value == "null") {
+            displayValue = "N/A"
+        }
 
         holder.tvName.text = name
 
@@ -67,8 +72,12 @@ class ListSensorAdapter(
             holder.itemView.context.startActivity(intent)
         }
 
-        if (!(value.toDouble() <= upper!! && value.toDouble() >= lower!!)) {
-            holder.card.setBackgroundColor(holder.itemView.resources.getColor(R.color.yellow))
+        try {
+            if (!(value.toDouble() <= upper!! && value.toDouble() >= lower!!)) {
+                holder.card.setBackgroundColor(holder.itemView.resources.getColor(R.color.yellow))
+            }
+        } catch (e: Exception) {
+            Log.d(ListSensorAdapter::class.java.simpleName, e.message.toString())
         }
     }
 

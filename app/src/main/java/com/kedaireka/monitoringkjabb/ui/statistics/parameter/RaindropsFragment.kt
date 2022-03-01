@@ -32,7 +32,6 @@ import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import com.kedaireka.monitoringkjabb.utils.RaindropsMapper.Companion.RAINDROPS_DICT
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.collections.ArrayList
 
 class RaindropsFragment : Fragment() {
 
@@ -223,6 +222,7 @@ class RaindropsFragment : Fragment() {
                     R.color.grey_light
                 )
             )
+        lineDataSet.color = resources.getColor(R.color.blue_primary)
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
