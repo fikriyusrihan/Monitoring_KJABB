@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -56,6 +57,15 @@ class SettingsFragment : Fragment() {
         binding.aboutKjabb.setOnClickListener {
             val intentAboutKJABB = Intent(this.requireContext(), AboutKJABB::class.java)
             startActivity(intentAboutKJABB)
+        }
+
+        binding.monitoringWeb.setOnClickListener {
+            val url = "https://monitoring.cemebsa.com"
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(url)
+            }.also {
+                startActivity(it)
+            }
         }
 
         val sharedPref =

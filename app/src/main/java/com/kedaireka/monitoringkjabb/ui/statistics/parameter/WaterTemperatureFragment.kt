@@ -31,7 +31,6 @@ import com.kedaireka.monitoringkjabb.ui.detail.DetailSensorActivity
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.collections.ArrayList
 
 class WaterTemperatureFragment : Fragment() {
 
@@ -221,6 +220,7 @@ class WaterTemperatureFragment : Fragment() {
                     R.color.grey_light
                 )
             )
+        lineDataSet.color = resources.getColor(R.color.blue_primary)
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM

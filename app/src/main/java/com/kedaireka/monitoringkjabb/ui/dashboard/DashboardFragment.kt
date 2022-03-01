@@ -41,18 +41,18 @@ class DashboardFragment : Fragment() {
 
         pbDashboard = binding.pbDashboard
 
-        dashboardViewModel.isLoading.observe(viewLifecycleOwner, {
+        dashboardViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
-        })
+        }
 
-        dashboardViewModel.thresholdData.observe(viewLifecycleOwner, {
+        dashboardViewModel.thresholdData.observe(viewLifecycleOwner) {
             thresholdList = it
-        })
+        }
 
-        dashboardViewModel.data.observe(viewLifecycleOwner, {
+        dashboardViewModel.data.observe(viewLifecycleOwner) {
             list = it
             showRecyclerView()
-        })
+        }
 
         return root
     }

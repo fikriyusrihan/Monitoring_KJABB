@@ -1,6 +1,5 @@
 package com.kedaireka.monitoringkjabb.ui.dashboard
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +7,7 @@ import com.google.firebase.Timestamp
 import com.kedaireka.monitoringkjabb.model.Sensor
 import com.kedaireka.monitoringkjabb.utils.FirebaseDatabase.Companion.DATABASE_REFERENCE
 import java.util.*
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class DashboardViewModel : ViewModel() {
@@ -63,12 +63,34 @@ class DashboardViewModel : ViewModel() {
     }
 
     private fun createDummyRecords() {
-        for (i in 0..1500) {
+        // Water Temperature
+        for (i in 1..1100) {
             val timeInMillis = Date().time - (1800000 * i)
             val db = DATABASE_REFERENCE
             val data = mutableMapOf<String, Any>()
             data["created_at"] = timeInMillis / 1000
-//            data["value"] = (Random.nextDouble(18.0, 25.0) * 100).roundToInt() / 100.0
+            data["value"] = (Random.nextDouble(20.0, 32.0) * 100).roundToInt() / 100.0
+
+            db.child("sensors/water_temperature/records/${timeInMillis / 1000}").setValue(data)
+        }
+
+        // Ammonia
+        for (i in 1..1100) {
+            val timeInMillis = Date().time - (1800000 * i)
+            val db = DATABASE_REFERENCE
+            val data = mutableMapOf<String, Any>()
+            data["created_at"] = timeInMillis / 1000
+            data["value"] = (Random.nextDouble(0.02, 0.2) * 100).roundToInt() / 100.0
+
+            db.child("sensors/ammonia/records/${timeInMillis / 1000}").setValue(data)
+        }
+
+        // Raindrops
+        for (i in 1..1100) {
+            val timeInMillis = Date().time - (1800000 * i)
+            val db = DATABASE_REFERENCE
+            val data = mutableMapOf<String, Any>()
+            data["created_at"] = timeInMillis / 1000
             data["value"] = Random.nextInt(0, 4)
 
             db.child("sensors/raindrops/records/${timeInMillis / 1000}").setValue(data)
