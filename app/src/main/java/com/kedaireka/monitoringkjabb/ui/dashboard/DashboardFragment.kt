@@ -41,6 +41,14 @@ class DashboardFragment : Fragment() {
 
         pbDashboard = binding.pbDashboard
 
+        val refreshLayout = binding.swipeRefreshLayout
+        refreshLayout.setOnRefreshListener {
+            dashboardViewModel.getSensorsData()
+            if (binding.swipeRefreshLayout.isRefreshing) {
+                refreshLayout.isRefreshing = false
+            }
+        }
+
         dashboardViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
         }

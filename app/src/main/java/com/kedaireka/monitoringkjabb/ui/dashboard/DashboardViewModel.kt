@@ -26,7 +26,7 @@ class DashboardViewModel : ViewModel() {
         getSensorsData()
     }
 
-    private fun getSensorsData() {
+    fun getSensorsData() {
         _isLoading.postValue(true)
 
         val refRealtimeDatabase = DATABASE_REFERENCE
