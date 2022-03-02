@@ -31,7 +31,6 @@ import com.kedaireka.monitoringkjabb.ui.detail.DetailSensorActivity
 import com.kedaireka.monitoringkjabb.utils.ExcelUtils
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.collections.ArrayList
 
 class AmmoniaFragment : Fragment() {
 

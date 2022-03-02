@@ -73,4 +73,5 @@
     <string name="threshold_notification_message">Sensor mendeteksi nilai di luar batas aman</string>
     <string name="status_good">Status: Baik</string>
     <string name="status_bad">Status: Buruk</string>
+    <string name="noise">Noise</string>
 </resources>

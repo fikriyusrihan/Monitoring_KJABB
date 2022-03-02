@@ -10,8 +10,8 @@ import android.content.Intent
 import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import com.kedaireka.monitoringkjabb.activity.MainActivity
 import com.kedaireka.monitoringkjabb.R
+import com.kedaireka.monitoringkjabb.activity.MainActivity
 import java.util.*
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -42,7 +42,11 @@ class AlarmReceiver : BroadcastReceiver() {
             pendingIntent
         )
 
-        Toast.makeText(context, context.getString(R.string.daily_notification_activated), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            context,
+            context.getString(R.string.daily_notification_activated),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun showAlarmNotification(context: Context, notificationId: Int) {
@@ -94,7 +98,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
         alarmManager.cancel(pendingIntent)
 
-        Toast.makeText(context,
-            context.getString(R.string.daily_notification_deactivated), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            context,
+            context.getString(R.string.daily_notification_deactivated), Toast.LENGTH_SHORT
+        ).show()
     }
 }

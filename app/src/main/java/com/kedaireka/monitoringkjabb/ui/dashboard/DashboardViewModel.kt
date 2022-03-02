@@ -16,7 +16,7 @@ class DashboardViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _data = MutableLiveData<ArrayList<Sensor>>()
-    val data : LiveData<ArrayList<Sensor>> = _data
+    val data: LiveData<ArrayList<Sensor>> = _data
 
     private val _thresholdData = MutableLiveData<ArrayList<Map<String, Double>>>()
     val thresholdData = _thresholdData

@@ -70,7 +70,6 @@
     <string name="_0" translatable="false">0</string>
     <string name="tidak_hujan">Not Raining</string>
     <string name="sensor_tidak_mendeteksi_adanya_hujan_pada_daerah_di_sekitar_sensor">The sensor does not detect rain in the area around the sensor</string>
-    <string name="noise" translatable="false">Noise</string>
     <string name="sensor_mendeteksi_adanya_air_pada_sensor_tetapi_belum_dikategorikan_sebagai_hujan_sehingga_hanya_dianggap_sebagai_noise_tidak_hujan">The sensor detects the presence of water on the sensor but it has not been categorized as rain so it is only considered as noise / not raining</string>
     <string name="_2" translatable="false">2</string>
     <string name="gerimis">Light Rain</string>
@@ -89,4 +88,5 @@
     <string name="status" translatable="false">Status:</string>
     <string name="status_good">Status: Good</string>
     <string name="status_bad">Status: Bad</string>
+    <string name="noise">Noise</string>
 </resources>

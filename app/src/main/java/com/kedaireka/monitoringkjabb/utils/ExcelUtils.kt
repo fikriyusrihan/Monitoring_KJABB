@@ -185,7 +185,11 @@ abstract class ExcelUtils {
             val dfStart = DateFormat.format("dd MMMM yyyy", start.created_at.toDate())
             val dfEnd = DateFormat.format("dd MMMM yyyy", end.created_at.toDate())
 
-            cellSecondTitle.setCellValue("PERIODE DATA: ${dfStart.toString().uppercase()} - ${dfEnd.toString().uppercase()}")
+            cellSecondTitle.setCellValue(
+                "PERIODE DATA: ${
+                    dfStart.toString().uppercase()
+                } - ${dfEnd.toString().uppercase()}"
+            )
             sheet.addMergedRegion(CellRangeAddress(2, 2, 0, 8))
 
             cellFirstTitle.cellStyle = cellStyle

@@ -31,7 +31,8 @@ class ListHistoryAdapter(private val listHistory: ArrayList<Sensor>) :
 
 
         if (sensor.id == RAINDROPS_ID) {
-            holder.tvValue.text = holder.itemView.context.getString(RAINDROPS_DICT[sensor.value.toInt()]!!)
+            holder.tvValue.text =
+                holder.itemView.context.getString(RAINDROPS_DICT[sensor.value.toInt()]!!)
         } else {
             val value = "${sensor.value} ${sensor.unit}"
             holder.tvValue.text = value

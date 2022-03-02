@@ -140,7 +140,7 @@ class DetailSensorActivity : AppCompatActivity() {
         if (data.id == RAINDROPS_ID) {
             binding.btnInfo.visibility = View.VISIBLE
         }
-        
+
         binding.btnInfo.setOnClickListener {
             showBottomSheetDialog()
         }
@@ -225,19 +225,39 @@ class DetailSensorActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this@DetailSensorActivity, getString(R.string.storage_permission_granted), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@DetailSensorActivity,
+                    getString(R.string.storage_permission_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                Toast.makeText(this@DetailSensorActivity, getString(R.string.storage_permission_denied), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@DetailSensorActivity,
+                    getString(R.string.storage_permission_denied),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
     private fun checkPermission(permission: String, requestCode: Int) {
-        if (ContextCompat.checkSelfPermission(this@DetailSensorActivity, permission) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(
+                this@DetailSensorActivity,
+                permission
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
             // Requesting permission
-            ActivityCompat.requestPermissions(this@DetailSensorActivity, arrayOf(permission), requestCode)
+            ActivityCompat.requestPermissions(
+                this@DetailSensorActivity,
+                arrayOf(permission),
+                requestCode
+            )
         } else {
-            Toast.makeText(this@DetailSensorActivity, getString(R.string.permission_already_granted), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@DetailSensorActivity,
+                getString(R.string.permission_already_granted),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

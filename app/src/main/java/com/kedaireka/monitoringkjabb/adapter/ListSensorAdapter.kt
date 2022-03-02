@@ -47,12 +47,19 @@ class ListSensorAdapter(
 
         if (value == "null") {
             displayValue = "N/A"
+        } else {
+
         }
 
         holder.tvName.text = name
 
         if (id == RAINDROPS_ID) {
-            holder.tvValue.text = holder.itemView.context.getString(RAINDROPS_DICT[value.toInt()]!!)
+            if (value == "null") {
+                holder.tvValue.text = holder.itemView.context.getString(RAINDROPS_DICT[0]!!)
+            } else {
+                holder.tvValue.text =
+                    holder.itemView.context.getString(RAINDROPS_DICT[value.toInt()]!!)
+            }
         } else {
             holder.tvValue.text = displayValue
         }
